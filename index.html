@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Kalika</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+    crossorigin="anonymous">
+
+</head>
+
+<body>
+  <!-- Nav -->
+  <div id="Nav">
+    <div class="Nav-links">
+      <ul id='Nav-largeUl' class='closed null'>
+        <li class="nav-li" id='home'>
+          Home
+        </li>
+        <li class="nav-li" id='home'>
+          About
+        </li>
+        <li class="nav-li" id='Nav-brand'>
+          <img src="assets/images/logoBlue.png" />
+        </li>
+        <li class="nav-li">
+          Products
+        </li>
+        <li class="nav-li">
+          Contact
+        </li>
+      </ul>
+    </div>
+    <div class="ham">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <hr class='noMarg' />
+  </div>
+  <div id="NavMobile">
+    <ul>
+      <li class="nav-li" id='home'>
+        Home
+      </li>
+      <hr class="noMarg">
+      <li class="nav-li" id='home'>
+        About
+      </li>
+      <hr class="noMarg">
+      <li class="nav-li">
+        Products
+      </li>
+      <hr class="noMarg">
+      <li class="nav-li">
+        Contact
+      </li>
+      <hr class="noMarg">
+    </ul>
+  </div>
+  <hr class='noMarg' id="Nav-mobile-hr" />
+  <div id=" Home ">
+    <div id='TopHero'>
+      <h1 id='TopHero-slogan'>Kalika</h1>
+    </div>
+    <hr />
+    <div id='Page-container' class='container'>
+      <div class="Row row ">
+        <div class='col-12'>
+          <h3 class='text-center upCase'>Keep food fresh longer</h3>
+          <p class='noMarg text-center'>
+            KALIKA beeswax food wrap, an alternative food storage that is reusable and washable.
+          </p>
+        </div>
+      </div>
+      <hr />
+      <div id="about ">
+        <div class="Row row ">
+          <div class='col-md-6 text-center'>
+            <img class='Row-image' src='assets/images/3veggiesWood.jpg' alt='3veggies' />
+          </div>
+          <div class='col-md-6 text-center'>
+            <p class='Row-p'>sartorial deep v American Apparel banh mi Austin photo booth street art letterpress slow-carb
+            </p>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div id="products ">
+        <div class="Row row ">
+          <div class='col-md-6 text-center'>
+            <p class='Row-p'>sartorial deep v American Apparel banh mi Austin photo booth street art letterpress slow-carb
+            </p>
+          </div>
+          <div class='col-md-6 text-center'>
+            <img class='Row-image' src='assets/images/openWrapsWood.jpg' alt='3veggies' />
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div class="Row row ">
+        <div class='col-md-12 text-center'>
+          <img class='Row-image' src='assets/images/cuttingBoardWood.jpg' alt='3veggies' />
+        </div>
+      </div>
+      <hr />
+      <div id="contact ">
+        <div class="Row row ">
+          <h1 id='Contact-title' class='col-md-12 text-center'>Contact Us</h1>
+          <div class='col-md-6 text-center'>
+            <img id='Contact-img' src='assets/images/sideAngle.jpg' alt='3veggies' width='400px' />
+          </div>
+          <div class='col-md-6'>
+
+            <!-- Contact -->
+            <div id="ContactForm ">
+              <div class="form-group ">
+                <label for="Contact-name ">Name:</label>
+                <input type="name " name='name' class="form-control " id="Contact-name " onChange={props.onChange} />
+              </div>
+              <div class="form-group ">
+                <label for="Contact-email ">Email:</label>
+                <input type="email " name='email' class="form-control " id="Contact-email " onChange={props.onChange} />
+              </div>
+              <div class="form-group ">
+                <label for="Contact-subject ">Subject:</label>
+                <input type="text " name='subject' class="form-control " id="Contact-subject " onChange={props.onChange} />
+              </div>
+              <div class="form-group ">
+                <label for="Contact-message ">Message:</label>
+                <textarea type="text " name='message' class="form-control " id="Contact-message " onChange={props.onChange}></textarea>
+              </div>
+              <button type="submit " class="btn btn-success " onClick={props.onSubmit}>Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr />
+    <!-- FOOTER -->
+    <div class='container'>
+      <div class='row' id="Footer ">
+        <div class="col-md-12 ">
+          <div class='row'>
+            <div class='col-md-6' id='Footer-contact'>
+              <h5>CONTACT</h5>
+              <p>
+                <i class="fas fa-envelope "></i> artesana.soap@gmail.com</p>
+              <p>
+                <i class="fas fa-map-marker-alt "></i> Jl. Nitiprayan No. 130
+                <br /> (south of Perum. Graha Nirmala, iron sliding door)
+                <br /> Tirtonirmolo - Tegal Kenanga
+                <br /> Kasihan, Kab. Bantul, 55184
+                <br />
+              </p>
+            </div>
+            <div class='col-md-6'>
+              <h5>VISIT US</h5>
+              <p>
+                <a href='https://bit.ly/2Hbeyfh'> Tokopedia Shop</a>
+              </p>
+            </div>
+          </div>
+          <div class="row text-center ">
+            <div class='col-md-12'>
+              ©Copyright 2019 Kalika
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="assets/js/index.js "></script>
+</body>
+
+</html>
