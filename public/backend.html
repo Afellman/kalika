@@ -6,24 +6,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="shortcut icon" href="/favicon.ico">
-  <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style.css" />
-  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/">
+  <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/style.css" />
+  <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
   <title>kalika backend</title>
 </head>
 
 <body>
 
   <div class="jumbotron row">
-    <div class="col-md-6 offset-md-3 text-center" id='enter'>
+    <div class="col-md-12 text-center" id='enter'>
       <input id='pass' placeholder="Enter The Password">
       <button class='btn btn-info' id='submit'>Submit</button>
     </div>
+    <div id="backendHeader" style="display: none;" class="col-md-12 text-center">
+      <h2>
+        Backend
+      </h2>
+    </div>
   </div>
 
-  <div id="mainBackend">
-    <div id='currentImgs' class='row'>
+  <div id="mainBackend" class="container">
+    <div class='row'>
+      <div id='currentImgs' class="col-md-12">
 
+      </div>
     </div>
     <div class="row">
       <div class='col-md-3 offset-md-4 text-center'>
@@ -44,13 +51,14 @@
 
   <script>
     var btn = document.getElementById('submit');
+    document.getElementById('mainBackend').style.display = 'none';
     btn.addEventListener('click', function (e) {
       sendPass();
     })
 
     function sendPass() {
       var pass = document.getElementById('pass').value;
-      xhr = new XMLHttpRequest();
+      var xhr = new XMLHttpRequest();
 
       xhr.open('POST', '/backend/pass');
       xhr.setRequestHeader('Content-Type', 'application/json');
@@ -58,7 +66,7 @@
         if (xhr.status === 200) {
           showBackend();
         } else if (xhr.status == 401) {
-          document.write("NOW ALLOWED");
+          document.write("NOT ALLOWED");
         }
         else if (xhr.status !== 200) {
           alert('Request failed.  Returned status of ' + xhr.status);
@@ -68,29 +76,49 @@
     }
 
     function getCurrent() {
-      xhr = new XMLHttpRequest();
+      var xhr = new XMLHttpRequest();
 
-      xhr.open('GET', '/backend/all');
-      xhr.setRequestHeader('Content-Type', 'image/*');
+      xhr.open('GET', '/backend/allNames');
+      xhr.setRequestHeader('Content-Type', 'application/json');
       xhr.onload = function () {
         if (xhr.status === 200) {
           console.log(xhr);
-          appendImages(xhr.responseText);
-        } else if (xhr.status == 401) {
-          document.write("NOT ALLOWED");
-        }
-        else if (xhr.status !== 200) {
+          var textArray = JSON.parse(xhr.responseText)
+          getFiles(textArray);
+
+        } else if (xhr.status !== 200) {
           alert('Request failed.  Returned status of ' + xhr.status);
         }
       };
+      xhr.send()
+    }
+
+    function getFiles(textArray) {
+      var imgHolder = document.getElementById('currentImgs')
+      var imgs = document.createDocumentFragment();
+      textArray.forEach(el => {
+        var img = document.createElement('img');
+        img.setAttribute('src', `/currentStyles/${el}`);
+        imgHolder.appendChild(img);
+
+      })
     }
 
     function sendNewImage() {
 
     }
 
+    function get() {
+
+    }
+
+    function post() {
+
+    }
+
     function showBackend() {
-      document.getElementsByClassName("jumbotron")[0].style.display = 'none';
+      document.getElementById("enter").style.display = 'none';
+      document.getElementById("backendHeader").style.display = 'block';
       document.getElementById('mainBackend').style.display = 'block';
     }
   </script>

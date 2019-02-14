@@ -1,37 +1,49 @@
 const path = require('path')
 const express = require('express');
-const app = express();
 const nodemailer = require('nodemailer');
 const smtpTransport = require('nodemailer-smtp-transport');
+const fs = require('fs');
+require('dotenv').config();
+
+const app = express();
 const port = process.env.PORT || 8080;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'))
 
-
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/public/index.html')
+  res.sendFile(path.join(__dirname, '/public/index.html'))
 })
 
 app.get('/backend', (req, res) => {
-  res.sendFile(__dirname + '/public/backend.html');
+  res.sendFile(path.join(__dirname, '/public/backend.html'))
 })
 
 app.post('/backend/pass', (req, res) => {
-  var buf = Buffer.from(req.body.pass, 'base64').toString('ascii');
-  if (buf == "smile") {
+  var pass = Buffer.from(req.body.pass, 'base64').toString('ascii');
+  if (pass == process.env.PASS) {
     res.send("true")
   } else {
     res.status(401).send("Sorry, not allowed")
   }
 })
 
+app.get('/backend/allNames', (req, res) => {
+  fs.readdir(path.join(__dirname, '/public/currentStyles'), (err, items) => {
+    var fileArray = [];
+    for (var i = 0; i < items.length; i++) {
+      fileArray.push(items[i]);
+    }
+    res.send(fileArray)
+  });
+})
+
 var transporter = nodemailer.createTransport(smtpTransport({
   service: 'Gmail',
   auth: {
-    user: 'kalikadev@gmail.com',
-    pass: 'password123'
+    user: process.env.EMAIL,
+    pass: process.env.EMAILPASS
   }
 }))
 

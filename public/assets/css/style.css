@@ -400,3 +400,9 @@ button {
 .avatar-pic {
   height: 200px;
 }
+
+
+#currentImgs > img {
+  width: auto;
+  height: 488px;
+}
