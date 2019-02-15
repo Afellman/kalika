@@ -2,15 +2,17 @@ const path = require('path')
 const express = require('express');
 const nodemailer = require('nodemailer');
 const smtpTransport = require('nodemailer-smtp-transport');
+const fileUpload = require('express-fileupload');
 const fs = require('fs');
 require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 8080;
 
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'))
+app.use(fileUpload());
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '/public/index.html'))
@@ -18,6 +20,24 @@ app.get('/', (req, res) => {
 
 app.get('/backend', (req, res) => {
   res.sendFile(path.join(__dirname, '/public/backend.html'))
+})
+
+app.get('/backend/allNames', (req, res) => {
+  fs.readdir(path.join(__dirname, '/public/currentStyles'), (err, items) => {
+    var fileArray = [];
+    for (var i = 0; i < items.length; i++) {
+      fileArray.push(items[i]);
+    }
+    res.send(fileArray)
+  });
+})
+
+app.post('/backend/deleteImg', (req, res) => {
+  console.log(req.body)
+  fs.unlink(__dirname + '/public' + req.body.src, (err) => {
+    if (err) throw err;
+    res.sendStatus(200);
+  })
 })
 
 app.post('/backend/pass', (req, res) => {
@@ -29,14 +49,17 @@ app.post('/backend/pass', (req, res) => {
   }
 })
 
-app.get('/backend/allNames', (req, res) => {
-  fs.readdir(path.join(__dirname, '/public/currentStyles'), (err, items) => {
-    var fileArray = [];
-    for (var i = 0; i < items.length; i++) {
-      fileArray.push(items[i]);
+app.post('/backend/newPhoto', (req, res) => {
+  var photo = req.files.photo;
+  fs.writeFile(__dirname + '/public/currentStyles/' + photo.name, photo.data, 'binary', function (err) {
+    if (err) {
+      res.sendStatus(500);
+      console.log(err);
+    } else {
+      console.log('File saved.')
+      res.sendStatus(200)
     }
-    res.send(fileArray)
-  });
+  })
 })
 
 var transporter = nodemailer.createTransport(smtpTransport({

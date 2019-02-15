@@ -402,7 +402,17 @@ button {
 }
 
 
-#currentImgs > img {
+#currentImgs > div{
+  float:left;
+}
+
+#currentImgs > div > button{
+  display: block;
+  margin: auto;
+}
+
+#currentImgs > div > img, #modalImg {
   width: auto;
+  display: block;
   height: 488px;
 }

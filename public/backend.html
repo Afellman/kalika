@@ -26,24 +26,42 @@
     </div>
   </div>
 
-  <div id="mainBackend" class="container">
+  <div id="mainBackend" style="display:none;" class="container">
+    <div class="row">
+      <div class='col-md-3 mx-auto text-center'>
+        <img src="https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg" class="rounded-circle z-depth-1-half avatar-pic pb-5 mb"
+          alt="example placeholder avatar">
+        <h4>New Photo</h4>
+        <div class="custom-file text-left">
+          <input type="file" class="custom-file-input" id="customFile">
+          <label class="custom-file-label" for="customFile">Choose file</label>
+        </div>
+      </div>
+    </div>
     <div class='row'>
       <div id='currentImgs' class="col-md-12">
 
       </div>
     </div>
-    <div class="row">
-      <div class='col-md-3 offset-md-4 text-center'>
-        <img src="https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg" class="rounded-circle z-depth-1-half avatar-pic pb-5 mb"
-          alt="example placeholder avatar">
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
-          </div>
-          <div class="custom-file text-left">
-            <input type="file" class="custom-file-input" id="inputGroupFile01" accept="image/*" aria-describedby="inputGroupFileAddon01">
-            <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-          </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <img id="modalImg" src='' />
+          <p>Are you sure you want to delete this picture?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" id="modalDelete" data-dismiss="modal" class="btn btn-danger">Delete</button>
         </div>
       </div>
     </div>
@@ -51,41 +69,97 @@
 
   <script>
     var btn = document.getElementById('submit');
-    document.getElementById('mainBackend').style.display = 'none';
+    var upload = document.getElementById('customFile');
+    var imgToDelete = {};
+    var modalDelete = document.getElementById('modalDelete');
+
+    modalDelete.addEventListener('click', function () {
+      httpPost('deleteImg', 'application/json', imgToDelete, (res) => {
+        imgToDelete = {};
+        getCurrent();
+      })
+    });
+
+    upload.addEventListener('input', function () {
+      uploadPic();
+    })
+
     btn.addEventListener('click', function (e) {
       sendPass();
     })
 
     function sendPass() {
       var pass = document.getElementById('pass').value;
-      var xhr = new XMLHttpRequest();
-
-      xhr.open('POST', '/backend/pass');
-      xhr.setRequestHeader('Content-Type', 'application/json');
-      xhr.onload = function () {
-        if (xhr.status === 200) {
-          showBackend();
-        } else if (xhr.status == 401) {
-          document.write("NOT ALLOWED");
-        }
-        else if (xhr.status !== 200) {
-          alert('Request failed.  Returned status of ' + xhr.status);
-        }
-      };
-      xhr.send(JSON.stringify({ pass: btoa(pass) }));
+      pass = JSON.stringify({ pass: btoa(pass) })
+      httpPost('pass', 'application/json', pass, (res) => {
+        showBackend();
+        getCurrent();
+      });
     }
 
     function getCurrent() {
-      var xhr = new XMLHttpRequest();
+      httpGet('allNames', (res) => {
+        var textArray = JSON.parse(res);
+        getFiles(textArray);
+      })
+    }
 
-      xhr.open('GET', '/backend/allNames');
+    function getFiles(textArray) {
+      var imgHolder = document.getElementById('currentImgs');
+      var imgs = document.createDocumentFragment();
+      imgHolder.innerHTML = '';
+      textArray.forEach(el => {
+        buildImgDivs(imgs, el)
+      })
+      imgHolder.appendChild(imgs);
+    }
+
+
+    function deleteBtnClick(e) {
+      var src = e.target.previousSibling.getAttribute('src');
+      var modalImg = document.getElementById('modalImg');
+
+
+      modalImg.setAttribute('src', src);
+
+      src = JSON.stringify({ src: src })
+      imgToDelete = src;
+    }
+
+    function uploadPic(files) {
+      var photo = document.getElementById('customFile').files[0];
+      var formData = new FormData();
+      formData.append('photo', photo);
+      httpPost('newPhoto', false, formData, (res) => {
+        getCurrent()
+      })
+    }
+
+
+    function buildImgDivs(imgs, el) {
+      var imgDiv = document.createElement('div');
+      var img = document.createElement('img');
+      var deleteBtn = document.createElement('button');
+
+      deleteBtn.classList = "btn btn-danger ";
+      deleteBtn.innerText = "Delete ";
+      deleteBtn.addEventListener('click', deleteBtnClick);
+      deleteBtn.setAttribute('data-toggle', 'modal');
+      deleteBtn.setAttribute('data-target', '#deleteModal');
+      img.setAttribute('src', `/currentStyles/${el}`);
+      imgDiv.appendChild(img)
+      imgDiv.appendChild(deleteBtn);
+      imgs.appendChild(imgDiv);
+    }
+
+    function httpGet(url, cb) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', '/backend/' + url);
       xhr.setRequestHeader('Content-Type', 'application/json');
       xhr.onload = function () {
         if (xhr.status === 200) {
           console.log(xhr);
-          var textArray = JSON.parse(xhr.responseText)
-          getFiles(textArray);
-
+          cb(xhr.responseText);
         } else if (xhr.status !== 200) {
           alert('Request failed.  Returned status of ' + xhr.status);
         }
@@ -93,27 +167,23 @@
       xhr.send()
     }
 
-    function getFiles(textArray) {
-      var imgHolder = document.getElementById('currentImgs')
-      var imgs = document.createDocumentFragment();
-      textArray.forEach(el => {
-        var img = document.createElement('img');
-        img.setAttribute('src', `/currentStyles/${el}`);
-        imgHolder.appendChild(img);
+    function httpPost(url, contentType, data, cb) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/backend/' + url);
+      contentType ? xhr.setRequestHeader('Content-Type', contentType) : null;
+      xhr.onload = function () {
+        if (xhr.status === 200) {
+          cb(xhr.response);
+        } else if (xhr.status == 401) {
+          document.write("NOT ALLOWED ");
+        } else if (xhr.status == 413) {
+          alert("File too big dong! ")
+        } else if (xhr.status !== 200) {
+          alert('Request failed.  Returned status of ' + xhr.status);
+        }
 
-      })
-    }
-
-    function sendNewImage() {
-
-    }
-
-    function get() {
-
-    }
-
-    function post() {
-
+      };
+      xhr.send(data);
     }
 
     function showBackend() {
@@ -122,6 +192,12 @@
       document.getElementById('mainBackend').style.display = 'block';
     }
   </script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js " integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo "
+    crossorigin="anonymous "></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js " integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1 "
+    crossorigin="anonymous "></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js " integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM "
+    crossorigin="anonymous "></script>
 </body>
 
 </html>
