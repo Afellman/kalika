@@ -4,7 +4,6 @@ const nodemailer = require('nodemailer');
 const smtpTransport = require('nodemailer-smtp-transport');
 const fileUpload = require('express-fileupload');
 const fs = require('fs');
-let photos = require(__dirname + '/photoList.json')
 require('dotenv').config();
 
 const app = express();
@@ -23,18 +22,6 @@ app.get('/backend', (req, res) => {
   res.sendFile(path.join(__dirname, '/public/backend.html'))
 })
 
-app.get('/backend/photos', (req, res) => {
-  res.send(photos)
-})
-
-app.post('/backend/deleteImg', (req, res) => {
-  console.log(req.body)
-  fs.unlink(__dirname + '/public' + req.body.src, (err) => {
-    if (err) throw err;
-    res.sendStatus(200);
-  })
-})
-
 app.post('/backend/pass', (req, res) => {
   var pass = Buffer.from(req.body.pass, 'base64').toString('ascii');
   if (pass == process.env.PASS) {
@@ -44,17 +31,89 @@ app.post('/backend/pass', (req, res) => {
   }
 })
 
+app.get('/backend/photos', (req, res) => {
+  fs.readFile(__dirname + '/photoList.json', (err, data) => {
+    res.send(data)
+  })
+})
+
+app.post('/backend/deleteImg', (req, res) => {
+  console.log(req.body)
+  fs.unlink(__dirname + '/public' + req.body.src, (err) => {
+    if (err) {
+      console.log(err);
+      res.sendStatus(500);
+    } else {
+      fs.readFile(__dirname + '/photoList.json', function (err, data) {
+        var json = JSON.parse(data);
+        var newJSON = json.filter((el, i) => {
+          return i !== req.body.index
+        })
+        fs.writeFile(__dirname + '/photoList.json', JSON.stringify(newJSON), function (err) {
+          if (err) {
+            console.log(err);
+            res.sendStatus(500);
+          } else {
+            res.sendStatus(200)
+          }
+        })
+      })
+    }
+  })
+})
+
+app.post('/backend/newImgData', (req, res) => {
+  var imgData = req.body.data;
+  var index = req.body.index;
+
+  fs.readFile(__dirname + '/photoList.json', function (err, data) {
+    var json = JSON.parse(data);
+    json[index] = imgData;
+    console.log(req.body)
+    fs.writeFile(__dirname + '/photoList.json', JSON.stringify(json), function (err) {
+      if (err) {
+        console.log(err);
+        res.sendStatus(500);
+      } else {
+        res.sendStatus(200)
+      }
+    })
+  })
+})
+
 app.post('/backend/newPhoto', (req, res) => {
   var photo = req.files.photo;
+  var newData = {
+    name: photo.name,
+    size: '',
+    path: photo.name,
+    link: ''
+  }
+
   fs.writeFile(__dirname + '/public/currentStyles/' + photo.name, photo.data, 'binary', function (err) {
     if (err) {
       res.sendStatus(500);
       console.log(err);
     } else {
       console.log('File saved.')
-      res.sendStatus(200)
+
+      fs.readFile(__dirname + '/photoList.json', function (err, data) {
+        var json = JSON.parse(data)
+        json.push(newData)
+
+        fs.writeFile(__dirname + '/photoList.json', JSON.stringify(json), function (err) {
+          if (err) {
+            console.log(err);
+            res.sendStatus(500);
+          } else {
+            res.sendStatus(200)
+          }
+        })
+      })
     }
   })
+
+
 })
 
 var transporter = nodemailer.createTransport(smtpTransport({

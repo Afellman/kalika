@@ -12,27 +12,29 @@ ham[0].addEventListener("click", function (e) {
   }
 })
 
-httpGet('allNames', (res) => {
+httpGet('photos', (res) => {
   var photoHolder = document.getElementById('currentStyles');
-  var imgs = document.createDocumentFragment();
-  var textArray = JSON.parse(res);
-  textArray.forEach(photo => {
-    var col = document.createElement('div');
-    var img = document.createElement('img');
-    var a = document.createElement('a');
-    var text = document.createElement('p');
+  var photoArray = JSON.parse(res);
+  var length = photoArray.length
+  var colMap = {
+    1: 12,
+    2: 6,
+    3: 4,
+    4: 3
+  }
 
-    col.classList = 'col-md-4 text-center';
-    img.setAttribute('src', 'currentStyles/' + photo);
-    img.classList.add('Row-image');
-    text.innerText = photo.split('.')[0];
-    a.setAttribute('href', '#');
-
-    col.appendChild(img);
-    col.appendChild(text);
-    imgs.appendChild(col);
+  var col = length > 4 ? 3 : colMap[length];
+  var photoDivs = photoArray.map((photo, i) => {
+    return (
+      `<div class='currentStyles col-md-${col} text-center'>
+        <img src='currentStyles/${photo.path}'/>
+        <p>${photo.name}</p>
+        <p>${photo.size}</p>
+        <a href='${photo.link}' target='_blank'>Buy Now</a>
+      </div>`
+    )
   })
-  photoHolder.appendChild(imgs);
+  photoHolder.innerHTML = photoDivs.join('');
 })
 
 function showHideMobileNav(showHide) {

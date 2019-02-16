@@ -30,24 +30,33 @@ function sendPass() {
 function getCurrent() {
   httpGet('photos', (photos) => {
     var photoArray = JSON.parse(photos);
-    console.log(photoArray)
     var imgHolder = document.getElementById('currentImgs');
-    var imgs = document.createDocumentFragment();
-    imgHolder.innerHTML = '';
-    photoArray.forEach(el => {
-      buildImgDivs(imgs, el)
-    })
-    imgHolder.appendChild(imgs);
+    var imgs = buildImgDivs(photoArray)
+    imgHolder.innerHTML = imgs;
   })
 }
 
+function saveBtnClick(i) {
+  var datObject = {
+    data: {
+      name: document.getElementById('nameInput' + i).value,
+      link: document.getElementById('linkInput' + i).value,
+      size: document.getElementById('sizeInput' + i).value,
+      path: document.getElementById('img' + i).getAttribute('src').split('/')[2]
+    },
+    index: i
+  }
+  console.log(datObject)
+  httpPost('newImgData', 'application/json', JSON.stringify(datObject), (res) => {
 
+  })
+}
 
-function deleteBtnClick(e) {
-  var src = e.target.previousSibling.getAttribute('src');
+function deleteBtnClick(index) {
+  var src = document.getElementById('img' + index).getAttribute('src');
   var modalImg = document.getElementById('modalImg');
   modalImg.setAttribute('src', src);
-  src = JSON.stringify({ src: src })
+  src = JSON.stringify({ src: src, index: index })
   imgToDelete = src;
 }
 
@@ -61,37 +70,24 @@ function uploadPic(files) {
 }
 
 
-function buildImgDivs(imgs, el) {
-  var imgDiv = document.createElement('div');
-  var img = document.createElement('img');
-  var deleteBtn = document.createElement('button');
-  var saveBtn = document.createElement('button');
-  var nameInput = document.createElement('input');
-  var sizeInput = document.createElement('input');
-  var linkInput = document.createElement('input');
-
-  nameInput.setAttribute('id', 'nameInput');
-  sizeInput.setAttribute('id', 'sizeInput');
-  linkInput.setAttribute('id', 'linkInput');
-  nameInput.value = el.name;
-  sizeInput.value = el.size;
-  linkInput.value = el.link;
-
-  saveBtn.classList = 'btn btn-success';
-  saveBtn.innerText = 'Save';
-  deleteBtn.classList = "btn btn-danger ";
-  deleteBtn.innerText = "Delete ";
-  deleteBtn.addEventListener('click', deleteBtnClick);
-  deleteBtn.setAttribute('data-toggle', 'modal');
-  deleteBtn.setAttribute('data-target', '#deleteModal');
-  img.setAttribute('src', `/currentStyles/${el.path}`);
-  imgDiv.appendChild(img);
-  imgDiv.appendChild(nameInput);
-  imgDiv.appendChild(sizeInput);
-  imgDiv.appendChild(linkInput);
-  imgDiv.appendChild(deleteBtn);
-  imgDiv.appendChild(saveBtn);
-  imgs.appendChild(imgDiv);
+function buildImgDivs(photoArray) {
+  var photos = photoArray.map((el, i) => {
+    return (
+      `<div class='text-left'>
+        <img id='img${i}' src='/currentStyles/${el.path}'/>
+        <label> Name</label>
+        <input id='nameInput${i}' class='form-control' value='${el.name}'/>
+        <label>Size</label>
+        <input id='sizeInput${i}' class='form-control' value='${el.size}'/>
+        <label>Link</label>
+        <input id='linkInput${i}' class='form-control' value='${el.link}'/>
+        <button class='btn btn-info' onclick='saveBtnClick(${i})'>Save</button>
+        <button class='btn btn-danger' data-toggle='modal' data-target='#deleteModal' onclick='deleteBtnClick(${i})'>Delete</button>
+      </div>`
+    )
+  })
+  console.log(photos)
+  return photos.join('')
 }
 
 function showBackend() {
