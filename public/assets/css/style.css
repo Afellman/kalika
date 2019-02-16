@@ -397,6 +397,10 @@ button {
 
 
 /* Backend */
+#mainBackend {
+  margin-bottom: 50px;
+}
+
 .avatar-pic {
   height: 200px;
 }
@@ -404,12 +408,19 @@ button {
 
 #currentImgs > div{
   float:left;
+  text-align: center;
 }
 
 #currentImgs > div > button{
+  display: inline-block;
+  margin: auto;
+}
+
+#currentImgs input{
   display: block;
   margin: auto;
 }
+
 
 #currentImgs > div > img, #modalImg {
   width: auto;

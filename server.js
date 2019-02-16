@@ -4,6 +4,7 @@ const nodemailer = require('nodemailer');
 const smtpTransport = require('nodemailer-smtp-transport');
 const fileUpload = require('express-fileupload');
 const fs = require('fs');
+let photos = require(__dirname + '/photoList.json')
 require('dotenv').config();
 
 const app = express();
@@ -22,14 +23,8 @@ app.get('/backend', (req, res) => {
   res.sendFile(path.join(__dirname, '/public/backend.html'))
 })
 
-app.get('/backend/allNames', (req, res) => {
-  fs.readdir(path.join(__dirname, '/public/currentStyles'), (err, items) => {
-    var fileArray = [];
-    for (var i = 0; i < items.length; i++) {
-      fileArray.push(items[i]);
-    }
-    res.send(fileArray)
-  });
+app.get('/backend/photos', (req, res) => {
+  res.send(photos)
 })
 
 app.post('/backend/deleteImg', (req, res) => {
