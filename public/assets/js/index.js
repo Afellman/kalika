@@ -1,18 +1,34 @@
 var isSmall;
 var ham = document.getElementsByClassName('ham');
+var navLinks = document.getElementsByClassName('nav-li');
 
+// Inital load.
+(function () {
 
-ham[0].addEventListener("click", function (e) {
-  if (!ham[0].classList.contains('clicked')) {
-    showHideMobileNav("show");
-    ham[0].classList.add("clicked")
-  } else {
-    ham[0].classList.remove("clicked");
-    showHideMobileNav("hide");
-  }
-})
+  $('.nav-li').click(function () {
+    var whereTo = $(`#${$(this).attr('data-to')}`);
+    $('html, body').animate({
+      scrollTop: whereTo.offset().top - 25
+    }, 600)
+  })
 
-httpGet('photos', (res) => {
+  ham[0].addEventListener("click", function (e) {
+    if (!ham[0].classList.contains('clicked')) {
+      showHideMobileNav("show");
+      ham[0].classList.add("clicked")
+    } else {
+      ham[0].classList.remove("clicked");
+      showHideMobileNav("hide");
+    }
+  })
+
+  httpGet('photos', (res) => {
+    buildImages(res);
+  })
+
+})();
+
+function buildImages(res) {
   var photoHolder = document.getElementById('currentStyles');
   var photoArray = JSON.parse(res);
   var length = photoArray.length
@@ -22,21 +38,20 @@ httpGet('photos', (res) => {
     3: 4,
     4: 3
   }
-
   var col = length > 4 ? 3 : colMap[length];
   var photoDivs = photoArray.map((photo, i) => {
     return (
       `<div class='currentStyles col-md-${col} text-center'>
-        <img src='currentStyles/${photo.path}'/>
-        <p>${photo.name}</p>
-        <p>${photo.size}</p>
-        <a href='${photo.link}' target='_blank'>Buy Now</a>
+      <img src='currentStyles/${photo.path}'/>
+      <p>${photo.name}</p>
+      <p>${photo.size}</p>
+      <a href='${photo.link}' target='_blank'>Buy Now</a>
       </div>`
     )
   })
   photoHolder.innerHTML = photoDivs.join('');
-})
 
+}
 function showHideMobileNav(showHide) {
   var pos;
   var navMobile = document.getElementById('NavMobile');
@@ -54,7 +69,3 @@ function showHideMobileNav(showHide) {
   }
   navMobile.style.transform = pos;
 };
-
-
-// BACK END ---------------------------------
-

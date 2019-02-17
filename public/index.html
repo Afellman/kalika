@@ -18,19 +18,19 @@
   <div id="Nav">
     <div class="Nav-links">
       <ul id='Nav-largeUl' class='closed null'>
-        <li class="nav-li" id='home'>
+        <li class="nav-li" data-to='home'>
           Home
         </li>
-        <li class="nav-li" id='home'>
+        <li class="nav-li" data-to='about'>
           About
         </li>
-        <li class="nav-li" id='Nav-brand'>
+        <li class="nav-li" data-to='home' id='Nav-brand'>
           <img src="assets/images/logoBlue.png" />
         </li>
-        <li class="nav-li">
+        <li class="nav-li" data-to='products'>
           Products
         </li>
-        <li class="nav-li">
+        <li class="nav-li" data-to='contact'>
           Contact
         </li>
       </ul>
@@ -44,26 +44,26 @@
   </div>
   <div id="NavMobile">
     <ul>
-      <li class="nav-li" id='home'>
+      <li class="nav-li" data-to='home'>
         Home
       </li>
       <hr class="noMarg">
-      <li class="nav-li" id='home'>
+      <li class="nav-li" data-to='about'>
         About
       </li>
       <hr class="noMarg">
-      <li class="nav-li">
+      <li class="nav-li" data-to='products'>
         Products
       </li>
       <hr class="noMarg">
-      <li class="nav-li">
+      <li class="nav-li" data-to='contact'>
         Contact
       </li>
       <hr class="noMarg">
     </ul>
   </div>
   <hr class='noMarg' id="Nav-mobile-hr" />
-  <div id=" Home ">
+  <div id="Home">
     <h1 id='TopHero-slogan'>KALIKA Beeswax Wrap</h1>
 
     <div id="TopHero" class="carousel slide" data-ride="carousel">
@@ -95,10 +95,10 @@
   </div>
   <hr />
   <div id='Page-container' class='container'>
-    <div class="Row row ">
+    <div class="Row row">
       <div class='col-12'>
         <h3 class='text-center upCase'>Keep food fresh longer</h3>
-        <p class=' text-center'>
+        <p class='text-center'>
           KALIKA beeswax food wrap, an alternative food storage that is reusable and washable.
         </p>
         <p class="text-center">Keep bread, veggies, mushrooms, open fruits or left over meals fresh longer. KALIKA lets your food breath and keeps
@@ -123,7 +123,6 @@
 
           </div>
         </div>
-
       </div>
     </div>
     <hr />
@@ -198,8 +197,13 @@
             <button type="submit " class="btn">Submit</button>
           </div>
         </div>
-        <div class="col-md-12 mt-5"> If you are interested in becoming a KALIKA whole saler, please fill out
-          <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSfCqK0BKPdKnAGzvd52_6P6gugGvW7YaLR1byd3UYYMtt4vIw/viewform">this form</a>
+      </div>
+      <div class='row'>
+        <div class="col-md-12 mt-5" id='wholeSale'>
+          <p>Interested in becoming a KALIKA whole saler?</p>
+          <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSfCqK0BKPdKnAGzvd52_6P6gugGvW7YaLR1byd3UYYMtt4vIw/viewform">
+            <button class="btn">Click Here</button>
+          </a>
         </div>
       </div>
     </div>
@@ -209,7 +213,7 @@
   <hr />
   <!-- FOOTER -->
   <div class='container'>
-    <div class='row' id="Footer ">
+    <div class='row' id="Footer">
       <div class="col-md-12 ">
         <div class='row'>
           <div class='col-md-6' id='Footer-contact'>
@@ -241,14 +245,14 @@
   </div>
   </div>
 
-  <script src="/assets/js/utils.js"></script>
-  <script src="assets/js/index.js "></script>
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
     crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
     crossorigin="anonymous"></script>
+  <script src="/assets/js/utils.js"></script>
+  <script src="assets/js/index.js "></script>
 
 </body>
 
