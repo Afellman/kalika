@@ -13,11 +13,25 @@ var navLinks = document.getElementsByClassName('nav-li');
   })
 
   document.addEventListener('scroll', function () {
-    console.log(document.getElementsByTagName('html')[0].scrollTop)
-    if (document.getElementsByTagName('html')[0].scrollTop > 250) {
+    var scrollTop = document.getElementsByTagName('html')[0].scrollTop;
+    var careImg = document.querySelectorAll('.slideInRight.out')[0];
+    var aboutImg = document.querySelectorAll('.slideInLeft.out')[0];
+    console.log(scrollTop)
+    if (scrollTop > 250) {
       var currentStyles = document.getElementById('currentStyles');
       currentStyles.classList.add('show')
     }
+    if (scrollTop > 700 && careImg) {
+      careImg.classList.remove('out');
+      careImg.classList.add('in');
+    }
+    if (scrollTop > 1050 && aboutImg) {
+      aboutImg.classList.remove('out');
+      aboutImg.classList.add('in');
+    }
+
+
+
   })
 
   ham[0].addEventListener("click", function (e) {

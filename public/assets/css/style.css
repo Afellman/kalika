@@ -292,10 +292,11 @@ button {
     margin-top: 58px;
   }
 }
+
 /* ======= Footer ======= */
 
 #Footer {
-  padding: 52px 0px;
+  padding: 2rem;
 }
 
 #Footer-contact > p {
@@ -346,7 +347,6 @@ button {
   background-position-x: center;
   min-height: 400px;
   /* padding: 75px; */
-  margin-bottom: 3px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -357,11 +357,9 @@ button {
   text-align: center;
   text-shadow: 1px 0px 3px #6e6e6e29;
   color: #035C89;
-  /* margin-top: 2rem; */
   padding: 30px;
   background: #d3d3d31f;
-
-  /* background: white; */
+  margin-bottom: 0px;
 }
 
 #TopHero-slogan > em {
@@ -384,6 +382,36 @@ button {
 .d-block { 
   margin: 0 auto;
 }
+
+.carousel-inner .carousel-item:nth-of-type(1){
+  height: 400px;
+  background: url('../images/spreadWhite.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-position-x: -129px;
+  background-position-y: -566px;
+  background-size: 1589px;
+}
+
+.carousel-inner .carousel-item:nth-of-type(2){
+  height: 400px;
+  background: url('../images/021.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-position-x: -170px;
+  background-position-y: -610px;
+  background-size: 1589px;
+}
+.carousel-inner .carousel-item:nth-of-type(3){
+  height: 400px;
+  background: url('../images/046.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-position-x: 311px;
+  background-position-y: -313px;
+  background-size: 1280px;
+}
+
 
 /*======= ROW =======*/
 .Row {
@@ -409,6 +437,7 @@ button {
   margin-bottom: 25px;
 }
 
+/*======= CURRENT STYLES =======*/
 .currentStyles > p {
   margin: 0;
 }
@@ -418,8 +447,33 @@ button {
   transition: .5s ease-in;
 }
 
+/*======= TRANSITIONS =======*/
 #currentStyles.show {
   opacity: 1;
+}
+
+.slideInRight {
+  transition: transform .5s ease-in-out;
+}
+
+.slideInRight.out {
+  transform: translateX(1000px);
+  
+}
+.slideInRight.in {
+  transform: translateX(0);
+}
+
+.slideInLeft {
+  transition: transform .5s ease-in-out;
+}
+
+.slideInLeft.out {
+  transform: translateX(-1000px);
+  
+}
+.slideInLeft.in {
+  transform: translateX(0);
 }
 
 #wholeSale { 
