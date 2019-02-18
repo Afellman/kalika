@@ -413,6 +413,15 @@ button {
   margin: 0;
 }
 
+#currentStyles {
+  opacity: 0;
+  transition: .5s ease-in;
+}
+
+#currentStyles.show {
+  opacity: 1;
+}
+
 #wholeSale { 
   padding: 50px 25px;
   background: #d3d3d31f;

@@ -12,6 +12,14 @@ var navLinks = document.getElementsByClassName('nav-li');
     }, 600)
   })
 
+  document.addEventListener('scroll', function () {
+    console.log(document.getElementsByTagName('html')[0].scrollTop)
+    if (document.getElementsByTagName('html')[0].scrollTop > 250) {
+      var currentStyles = document.getElementById('currentStyles');
+      currentStyles.classList.add('show')
+    }
+  })
+
   ham[0].addEventListener("click", function (e) {
     if (!ham[0].classList.contains('clicked')) {
       showHideMobileNav("show");
