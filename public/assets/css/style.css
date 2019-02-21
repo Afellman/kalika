@@ -37,12 +37,12 @@ input, textarea {
 }
 
 a {
-  color :inherit;
+  color:inherit;
   transition: color .3s ease-out;
 }
 
 a:hover {
-  color: #00e59c;
+  color: #0a6ea2;
   text-decoration: none;
 }
 button {
@@ -303,11 +303,23 @@ button {
   margin-bottom: 5px;
 }
 
+#Footer-contact i{
+  margin-right: .5rem;
+}
+
+#Footer-contact > p:nth-of-type(2) > i {
+  margin-left: 2px;
+  margin-right: .75rem;
+}
+
+
 .fa-map-marker-alt {
   margin-bottom: 66px;
   float: left;
   margin-right: 5px;
 }
+
+
 
 /* ======= CONTACT ======= */
 
@@ -429,22 +441,32 @@ button {
   padding-top: 10px;
 }
 
+
+/*======= CURRENT STYLES =======*/
 .currentStyles > img {
   max-height: 330px;
   max-width: 100%;
   border-radius: 6px;
   box-shadow: 0px 10px 29px -6px grey;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
-/*======= CURRENT STYLES =======*/
+.currentStyles button {
+  padding: 4px 10px;
+}
+
 .currentStyles > p {
-  margin: 0;
+  margin-bottom: 5px;
 }
 
 #currentStyles {
   opacity: 0;
   transition: .5s ease-in;
+}
+
+/* ======= ABOUT ======= */
+#about p:nth-of-type(3), #about p:nth-of-type(4){
+  margin: 0px 1.5rem 1rem 1.5rem;
 }
 
 /*======= TRANSITIONS =======*/

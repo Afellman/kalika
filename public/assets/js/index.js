@@ -16,7 +16,6 @@ var navLinks = document.getElementsByClassName('nav-li');
     var scrollTop = document.getElementsByTagName('html')[0].scrollTop;
     var careImg = document.querySelectorAll('.slideInRight.out')[0];
     var aboutImg = document.querySelectorAll('.slideInLeft.out')[0];
-    console.log(scrollTop)
     if (scrollTop > 250) {
       var currentStyles = document.getElementById('currentStyles');
       currentStyles.classList.add('show')
@@ -67,7 +66,7 @@ function buildImages(res) {
       <img src='currentStyles/${photo.path}'/>
       <p>${photo.name}</p>
       <p>${photo.size}</p>
-      <a href='${photo.link}' target='_blank'>Buy Now</a>
+      <a href='${photo.link}' target='_blank'><button class='btn btnShadow'>Buy Now</button></a>
       </div>`
     )
   })
