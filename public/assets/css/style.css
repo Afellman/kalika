@@ -225,7 +225,7 @@ button {
   background: white;
   position: fixed;
   transition: .3s ease-out;
-  transform: translateY(-500px);
+  transform: translateY(-300px);
 }
 
 #Nav-mobile-hr {
@@ -278,6 +278,7 @@ button {
   }
   #NavMobile {
     z-index: 98;
+    margin-top: -1px;
   }
   #NavMobile > ul > li{
     padding: 10px 15px;
@@ -341,12 +342,21 @@ button {
 @media screen and (max-width: 768px){
   #Contact-img {
     width: 330px;
-    margin-top: 30px;
+    margin: 1rem 0 2rem 0;
+
   }
 }
 
 .section-title {
-  margin-bottom: 20px;
+  margin-bottom: 2rem;
+}
+
+/* ======= CARE ======= */
+
+@media screen and (max-width: 768px){
+  #care > div > div:nth-of-type(1){
+    order: 2;
+  }
 }
 
 /* ======= Hero ======= */
@@ -357,11 +367,11 @@ button {
   background-repeat: no-repeat;
   background-position-y: -137px;
   background-position-x: center;
-  min-height: 400px;
+  /* min-height: 400px; */
   /* padding: 75px; */
-  display: flex;
+  /* display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
 }
 
 
@@ -383,7 +393,6 @@ button {
     background-size: 450px;
     background-position-y: -99px;
     min-height: 300px;
-    margin-top: 47px;
   }
 
   #TopHero-slogan {
@@ -394,18 +403,30 @@ button {
 .d-block { 
   margin: 0 auto;
 }
-
-.carousel-inner .carousel-item:nth-of-type(1){
-  height: 400px;
-  background: url('../images/spreadWhite.jpg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-position-x: -129px;
-  background-position-y: -566px;
-  background-size: 1589px;
+.carousel-inner .carousel-item {
+  padding: 2rem;
+  min-height: 400px;
 }
 
-.carousel-inner .carousel-item:nth-of-type(2){
+ .carousel-inner img {
+  margin: -100px auto;
+  max-width: 552px;
+  border-radius: 6px;
+  box-shadow: 0px 10px 29px -6px grey;
+}
+
+@media screen and (max-width: 768px){
+  .carousel-inner .carousel-item {
+    min-height: 0px;
+    padding-bottom: 2rem;
+  }
+  .carousel-inner img {
+    margin: 0px auto;
+    max-width: 330px;
+  }
+}
+
+/* .carousel-inner .carousel-item:nth-of-type(2){
   height: 400px;
   background: url('../images/021.png');
   background-position: center;
@@ -422,7 +443,7 @@ button {
   background-position-x: 311px;
   background-position-y: -313px;
   background-size: 1280px;
-}
+}  */
 
 
 /*======= ROW =======*/
@@ -439,6 +460,12 @@ button {
 
 .Row-p {
   padding-top: 10px;
+}
+
+@media screen and (max-width: 768px){
+  .Row-image {
+    margin-bottom: 2rem;
+  }
 }
 
 
@@ -464,6 +491,14 @@ button {
   transition: .5s ease-in;
 }
 
+@media screen and (max-width: 768px){
+  .currentStyles {
+    margin-bottom: 2rem;
+  }
+  .currentStyles:nth-of-type(3){
+    margin-bottom: 0;
+  }
+}
 /* ======= ABOUT ======= */
 #about p:nth-of-type(3), #about p:nth-of-type(4){
   margin: 0px 1.5rem 1rem 1.5rem;

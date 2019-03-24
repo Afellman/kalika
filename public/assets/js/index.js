@@ -4,7 +4,15 @@ var navLinks = document.getElementsByClassName('nav-li');
 
 // Inital load.
 (function () {
+  var styleScroll = 250;
+  var careScroll = 700;
+  var aboutScroll = 1050;
 
+  if(window.innerWidth < 976){
+    styleScroll = 400;
+    careScroll = 1899;
+    aboutScroll = 2499;
+  }
   $('.nav-li').click(function () {
     var whereTo = $(`#${$(this).attr('data-to')}`);
     $('html, body').animate({
@@ -16,21 +24,19 @@ var navLinks = document.getElementsByClassName('nav-li');
     var scrollTop = document.getElementsByTagName('html')[0].scrollTop;
     var careImg = document.querySelectorAll('.slideInRight.out')[0];
     var aboutImg = document.querySelectorAll('.slideInLeft.out')[0];
-    if (scrollTop > 250) {
+    console.log(scrollTop)
+    if (scrollTop > styleScroll) {
       var currentStyles = document.getElementById('currentStyles');
       currentStyles.classList.add('show')
     }
-    if (scrollTop > 700 && careImg) {
+    if (scrollTop > careScroll && careImg) {
       careImg.classList.remove('out');
       careImg.classList.add('in');
     }
-    if (scrollTop > 1050 && aboutImg) {
+    if (scrollTop > aboutScroll && aboutImg) {
       aboutImg.classList.remove('out');
       aboutImg.classList.add('in');
     }
-
-
-
   })
 
   ham[0].addEventListener("click", function (e) {
@@ -83,7 +89,7 @@ function showHideMobileNav(showHide) {
       nav.style.boxShadow = "none";
     }, 300)
   } else {
-    pos = "translateY(-500px)";
+    pos = "translateY(-300px)";
     setTimeout(() => {
       nav.style.boxShadow = "0px 2px 4px 0px #4c4c4c42";
     }, 200)
