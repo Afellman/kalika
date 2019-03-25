@@ -418,7 +418,7 @@ button {
 @media screen and (max-width: 768px){
   .carousel-inner .carousel-item {
     min-height: 0px;
-    padding-bottom: 2rem;
+    padding: 0 0 2rem 0;
   }
   .carousel-inner img {
     margin: 0px auto;
@@ -515,10 +515,12 @@ button {
 
 .slideInRight.out {
   transform: translateX(1000px);
+  display: none;
   
 }
 .slideInRight.in {
   transform: translateX(0);
+  display: block;
 }
 
 .slideInLeft {
@@ -527,10 +529,12 @@ button {
 
 .slideInLeft.out {
   transform: translateX(-1000px);
+  display: none;
   
 }
 .slideInLeft.in {
   transform: translateX(0);
+  display: block;
 }
 
 #wholeSale { 
