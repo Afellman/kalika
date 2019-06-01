@@ -7,7 +7,7 @@ const fs = require('fs');
 require('dotenv').config();
 
 const app = express();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 80;
 
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true }));
@@ -120,32 +120,32 @@ var transporter = nodemailer.createTransport(smtpTransport({
   service: 'Gmail',
   auth: {
     user: process.env.EMAIL,
-    pass: process.env.EMAILPASS
+    pass: process.env.EMAIL_PASS
   }
 }))
 
 // Contact form submit functions. *** Need to update config ***
 // ------------------------------------------------------------
-app.post('/contact-submit', (req, res) => {
+app.post('/backend/contact-submit', (req, res) => {
   console.log('/contact-submit', req.body)
-  //   var mailOptions = {
-  //     from: 'hummoscontactus@gmail.com',
-  //     to: 'hummos1985@gmail.com',
-  //     cc: 'andrewfellman@abrahamsnatural.com',
-  //     subject: req.body.subject,
-  //     text: req.body.message,
-  //     replyTo: req.body.email
-  //   };
+     var mailOptions = {
+       from: process.env.EMAIL,
+       to: 'kalika.wrap@gmail.com',
+       cc: 'red.kasid@gmail.com',
+       subject: req.body.sub,
+       text: req.body.message,
+       replyTo: req.body.email
+     };
 
-  //   transporter.sendMail(mailOptions, function (error, info) {
-  //     if (error) {
-  //       console.log(error);
-  //     } else {
-  //       console.log('Email sent: ' + info.response);
-  //     }
-  //   });
-  //   console.log(req.body)
-  //   res.end('Submitted')
+     transporter.sendMail(mailOptions, function (error, info) {
+       if (error) {
+        console.log(error);
+       } else {
+       console.log('Email sent: ' + info.response);
+       }
+     });
+     console.log(req.body)
+    res.end('Submitted')
 })
 // ------------------------------------------------------------
 

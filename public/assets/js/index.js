@@ -55,6 +55,17 @@ var navLinks = document.getElementsByClassName('nav-li');
 
 })();
 
+document.getElementById("contactSubmit").addEventListener('click', function() {
+
+	var data = {}
+	data.name = document.getElementById('Contact-name');
+	data.email = document.getElementById('Contact-email');
+	data.sub = document.getElementById('Contact-subject');
+	data.message = document.getElementById('Contact-message');
+
+	httpPost('contact-submit','', data);
+})
+
 function buildImages(res) {
   var photoHolder = document.getElementById('currentStyles');
   var photoArray = JSON.parse(res);
@@ -69,7 +80,9 @@ function buildImages(res) {
   var photoDivs = photoArray.map((photo, i) => {
     return (
       `<div class='currentStyles col-md-${col} text-center'>
-      <img src='currentStyles/${photo.path}'/>
+	    <div class='imageWrap'>
+     		<img src='currentStyles/${photo.path}'/>
+	    </div>
       <p>${photo.name}</p>
       <p>${photo.size}</p>
       <a href='${photo.link}' target='_blank'><button class='btn btnShadow'>Buy Now</button></a>
