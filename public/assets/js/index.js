@@ -79,7 +79,7 @@ function buildImages(res) {
   var col = length > 4 ? 3 : colMap[length];
   var photoDivs = photoArray.map((photo, i) => {
     return (
-      `<div class='currentStyles col-md-${col} text-center'>
+      `<div class='currentStyles col-md-${col} col-6 text-center'>
 	    <div class='imageWrap'>
      		<img src='currentStyles/${photo.path}'/>
 	    </div>

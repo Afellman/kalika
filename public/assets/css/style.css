@@ -481,12 +481,13 @@ button {
   padding: 4px 10px;
 }
 
-.currentStyles > div {
+.imageWrap {
 	margin-bottom: 20px;
   	display: flex;
   	flex-direction: column;
   	justify-content: center;
-	height: 400px;
+	height: 340px;
+	padding: 0 20px;
 }
 .currentStyles > div > p {
   margin-bottom: 5px;
@@ -501,7 +502,7 @@ button {
   .currentStyles {
     margin-bottom: 2rem;
   }
-  .currentStyles:nth-of-type(3){
+  .currentStyles:last-of-type{
     margin-bottom: 0;
   }
 }
