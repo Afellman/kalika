@@ -8,7 +8,7 @@ var navLinks = document.getElementsByClassName('nav-li');
   var careScroll = 700;
   var aboutScroll = 1050;
 
-  if(window.innerWidth < 976){
+  if (window.innerWidth < 976) {
     styleScroll = 400;
     careScroll = 1899;
     aboutScroll = 2499;
@@ -55,15 +55,18 @@ var navLinks = document.getElementsByClassName('nav-li');
 
 })();
 
-document.getElementById("contactSubmit").addEventListener('click', function() {
+document.getElementById("contactSubmit").addEventListener('click', function () {
 
-	var data = {}
-	data.name = document.getElementById('Contact-name');
-	data.email = document.getElementById('Contact-email');
-	data.sub = document.getElementById('Contact-subject');
-	data.message = document.getElementById('Contact-message');
+  var data = {}
+  data.name = document.getElementById('Contact-name').value;
+  data.email = document.getElementById('Contact-email').value;
+  data.sub = document.getElementById('Contact-subject').value;
+  data.message = document.getElementById('Contact-message').value;
 
-	httpPost('contact-submit','', data);
+  $.post("/backend/contact-submit", data, function (res) {
+    console.log(res)
+  })
+  // httpPost('contact-submit', '', data);
 })
 
 function buildImages(res) {

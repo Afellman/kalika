@@ -128,24 +128,24 @@ var transporter = nodemailer.createTransport(smtpTransport({
 // ------------------------------------------------------------
 app.post('/backend/contact-submit', (req, res) => {
   console.log('/contact-submit', req.body)
-     var mailOptions = {
-       from: process.env.EMAIL,
-       to: 'kalika.wrap@gmail.com',
-       cc: 'red.kasid@gmail.com',
-       subject: req.body.sub,
-       text: req.body.message,
-       replyTo: req.body.email
-     };
+  var mailOptions = {
+    from: process.env.EMAIL,
+    to: process.env.MODE == "dev" ? 'kalika.wrap@gmail.com' : 'red.kasid@gmail.com',
+    cc: process.env.MODE == "production" ? 'red.kasid@gmail.com' : '',
+    subject: req.body.sub,
+    text: req.body.message,
+    replyTo: req.body.email
+  };
 
-     transporter.sendMail(mailOptions, function (error, info) {
-       if (error) {
-        console.log(error);
-       } else {
-       console.log('Email sent: ' + info.response);
-       }
-     });
-     console.log(req.body)
-    res.end('Submitted')
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
+  console.log(req.body)
+  res.end('Submitted')
 })
 // ------------------------------------------------------------
 
