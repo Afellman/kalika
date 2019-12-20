@@ -130,7 +130,7 @@ app.post('/backend/contact-submit', (req, res) => {
   console.log('/contact-submit', req.body)
   var mailOptions = {
     from: process.env.EMAIL,
-    to: process.env.MODE == "dev" ? 'kalika.wrap@gmail.com' : 'red.kasid@gmail.com',
+    to: process.env.MODE == "dev" ? 'red.kasid@gmail.com': 'kalika.wrap@gmail.com' ,
     cc: process.env.MODE == "production" ? 'red.kasid@gmail.com' : '',
     subject: req.body.sub,
     text: req.body.message,
@@ -140,12 +140,13 @@ app.post('/backend/contact-submit', (req, res) => {
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
       console.log(error);
+      res.send({status: "error", error: error})
     } else {
       console.log('Email sent: ' + info.response);
+      res.send({status: 'sent'})
     }
   });
-  console.log(req.body)
-  res.end('Submitted')
+
 })
 // ------------------------------------------------------------
 

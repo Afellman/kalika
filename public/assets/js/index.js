@@ -20,11 +20,12 @@ var navLinks = document.getElementsByClassName('nav-li');
     }, 600)
   })
 
+  $('[data-toggle="popover"]').popover({trigger: "manual"})
+
   document.addEventListener('scroll', function () {
     var scrollTop = document.getElementsByTagName('html')[0].scrollTop;
     var careImg = document.querySelectorAll('.slideInRight.out')[0];
     var aboutImg = document.querySelectorAll('.slideInLeft.out')[0];
-    console.log(scrollTop)
     if (scrollTop > styleScroll) {
       var currentStyles = document.getElementById('currentStyles');
       currentStyles.classList.add('show')
@@ -51,12 +52,13 @@ var navLinks = document.getElementsByClassName('nav-li');
 
   httpGet('photos', (res) => {
     buildImages(res);
-  })
+  });
 
 })();
 
-document.getElementById("contactSubmit").addEventListener('click', function () {
-
+document.getElementById("contactSubmit").addEventListener('click', function (e) {
+  e.preventDefault();
+  $('#contactSubmit').popover('show');
   var data = {}
   data.name = document.getElementById('Contact-name').value;
   data.email = document.getElementById('Contact-email').value;
@@ -65,8 +67,16 @@ document.getElementById("contactSubmit").addEventListener('click', function () {
 
   $.post("/backend/contact-submit", data, function (res) {
     console.log(res)
-  })
-  // httpPost('contact-submit', '', data);
+    if(res.status == "error"){
+      alert("Something went wrong...")
+    } else {
+      $('.popover-body').text("Message Sent!");
+      setTimeout(() => { 
+        $('#contactSubmit').popover('hide');
+      }, 2000);
+    }
+  });
+  httpPost('contact-submit', '', data);
 })
 
 function buildImages(res) {
