@@ -75,10 +75,10 @@ document.getElementById("contactSubmit").addEventListener('click', function (e) 
       alert("Something went wrong...")
     } else {
       $('.popover-body').text("Message Sent!");
-      name.innerText = "";
-      email.innerText = "";
-      sub.innerText = "";
-      message.innerText = "";
+      name.value = "";
+      email.value = "";
+      sub.value = "";
+      message.value = "";
       setTimeout(() => { 
         $('#contactSubmit').popover('hide');
       }, 2000);
