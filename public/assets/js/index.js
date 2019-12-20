@@ -76,7 +76,7 @@ document.getElementById("contactSubmit").addEventListener('click', function (e) 
       }, 2000);
     }
   });
-  httpPost('contact-submit', '', data);
+  // httpPost('contact-submit', '', data);
 })
 
 function buildImages(res) {
