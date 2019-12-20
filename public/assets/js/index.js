@@ -60,10 +60,14 @@ document.getElementById("contactSubmit").addEventListener('click', function (e) 
   e.preventDefault();
   $('#contactSubmit').popover('show');
   var data = {}
-  data.name = document.getElementById('Contact-name').value;
-  data.email = document.getElementById('Contact-email').value;
-  data.sub = document.getElementById('Contact-subject').value;
-  data.message = document.getElementById('Contact-message').value;
+  let name = document.getElementById('Contact-name');
+  let email = document.getElementById('Contact-email');
+  let sub = document.getElementById('Contact-subject');
+  let message = document.getElementById('Contact-message');
+  data.name = name.value;
+  data.email = email.value;
+  data.sub = sub.value;
+  data.message = message.value;
 
   $.post("/backend/contact-submit", data, function (res) {
     console.log(res)
@@ -71,13 +75,16 @@ document.getElementById("contactSubmit").addEventListener('click', function (e) 
       alert("Something went wrong...")
     } else {
       $('.popover-body').text("Message Sent!");
+      name.innerText = "";
+      email.innerText = "";
+      sub.innerText = "";
+      message.innerText = "";
       setTimeout(() => { 
         $('#contactSubmit').popover('hide');
       }, 2000);
     }
   });
-  // httpPost('contact-submit', '', data);
-})
+});
 
 function buildImages(res) {
   var photoHolder = document.getElementById('currentStyles');
