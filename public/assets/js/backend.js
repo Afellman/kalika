@@ -73,7 +73,7 @@ function uploadPic(files) {
 function buildImgDivs(photoArray) {
   var photos = photoArray.map((el, i) => {
     return (
-      `<div class='text-left'>
+      `<div class='text-left col-md-2'>
         <img id='img${i}' src='/currentStyles/${el.path}'/>
         <label> Name</label>
         <input id='nameInput${i}' class='form-control' value='${el.name}'/>
@@ -96,3 +96,23 @@ function showBackend() {
   document.getElementById('mainBackend').style.display = 'block';
 }
 
+
+
+var quill = new Quill('#editor', {
+  theme: 'snow',
+  modules: {
+    toolbar: [
+      ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+      [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
+      [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
+      [{ 'direction': 'rtl' }],                         // text direction
+
+      [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+      [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+      [{ 'align': [] }],
+      ['clean']                                         // remove formatting button
+    ]
+  }
+});

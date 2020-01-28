@@ -13,20 +13,21 @@ var navLinks = document.getElementsByClassName('nav-li');
     careScroll = 1899;
     aboutScroll = 2499;
   }
+
   $('.nav-li').click(function () {
     const attr = $(this).attr('data-to');
-      if(attr === "blog"){
-        location.pathname = "/blog"
-        location.hash = "";
-      }else {
-        var whereTo = $(`#${attr}`);
-        $('html, body').animate({
-          scrollTop: whereTo.offset().top - 25
-        }, 600)
+    if (attr === "blog") {
+      location.pathname = "/blog"
+      location.hash = "";
+    } else {
+      var whereTo = $(`#${attr}`);
+      $('html, body').animate({
+        scrollTop: whereTo.offset().top - 25
+      }, 600)
     }
   })
-    
-  $('[data-toggle="popover"]').popover({trigger: "manual"})
+
+  $('[data-toggle="popover"]').popover({ trigger: "manual" })
 
   document.addEventListener('scroll', function () {
     var scrollTop = document.getElementsByTagName('html')[0].scrollTop;
@@ -77,7 +78,7 @@ document.getElementById("contactSubmit").addEventListener('click', function (e) 
 
   $.post("/backend/contact-submit", data, function (res) {
     console.log(res)
-    if(res.status == "error"){
+    if (res.status == "error") {
       alert("Something went wrong...")
     } else {
       $('.popover-body').text("Message Sent!");
@@ -85,7 +86,7 @@ document.getElementById("contactSubmit").addEventListener('click', function (e) 
       email.value = "";
       sub.value = "";
       message.value = "";
-      setTimeout(() => { 
+      setTimeout(() => {
         $('#contactSubmit').popover('hide');
       }, 2000);
     }
