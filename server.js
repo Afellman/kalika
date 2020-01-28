@@ -22,6 +22,12 @@ app.get('/backend', (req, res) => {
   res.sendFile(path.join(__dirname, '/public/backend.html'))
 })
 
+
+app.get('/blog', (req, res) => {
+  res.sendFile(path.join(__dirname, '/public/blog.html'))
+})
+
+
 app.post('/backend/pass', (req, res) => {
   var pass = Buffer.from(req.body.pass, 'base64').toString('ascii');
   if (pass == process.env.PASS) {

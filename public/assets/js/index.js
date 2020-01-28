@@ -14,12 +14,18 @@ var navLinks = document.getElementsByClassName('nav-li');
     aboutScroll = 2499;
   }
   $('.nav-li').click(function () {
-    var whereTo = $(`#${$(this).attr('data-to')}`);
-    $('html, body').animate({
-      scrollTop: whereTo.offset().top - 25
-    }, 600)
+    const attr = $(this).attr('data-to');
+      if(attr === "blog"){
+        location.pathname = "/blog"
+        location.hash = "";
+      }else {
+        var whereTo = $(`#${attr}`);
+        $('html, body').animate({
+          scrollTop: whereTo.offset().top - 25
+        }, 600)
+    }
   })
-
+    
   $('[data-toggle="popover"]').popover({trigger: "manual"})
 
   document.addEventListener('scroll', function () {
