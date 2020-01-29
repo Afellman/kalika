@@ -2,6 +2,9 @@ var btn = document.getElementById('submit');
 var upload = document.getElementById('customFile');
 var imgToDelete = {};
 var modalDelete = document.getElementById('modalDelete');
+var blog = [];
+var isUpdate = false;
+var updateBlog = {};
 
 modalDelete.addEventListener('click', function () {
   httpPost('deleteImg', 'application/json', imgToDelete, (res) => {
@@ -97,7 +100,6 @@ function showBackend() {
 }
 
 
-
 var quill = new Quill('#editor', {
   theme: 'snow',
   modules: {
@@ -116,3 +118,53 @@ var quill = new Quill('#editor', {
     ]
   }
 });
+
+httpGet("blog", blogToDom);
+
+function blogToDom(res) {
+  const parsed = JSON.parse(res);
+  blog = parsed;
+  const div = document.getElementById('prevPosts');
+  const html = blog.map((post, i) => {
+    return `<li onclick="loadBlog(${i})">"${post.title}"<br/> ${post.date}</li>`
+  });
+  div.innerHTML = html;
+}
+
+document.getElementById("submitBlog").addEventListener("click", () => {
+  const newBody = quill.root.innerHTML;
+  const title = document.getElementById("blogTitle");
+  if (isUpdate) {
+    blog[updateBlog.num].body = newBody
+
+  } else {
+    const newPost = {
+      "date": new Date().toUTCString(),
+      "title": title,
+      "body": newBody
+    }
+    blog.push(newPost);
+  }
+
+  httpPost("blog", "application/json", JSON.stringify(blog), () => {
+    alert("New post submitted");
+    document.getElementById('submitBlog').innerText = "submit";
+    isUpdate = false;
+    updateBlog = {};
+    quill.root.innerHTML = "What's on your mind?";
+    document.getElementById('blogTitle').value = "";
+    httpGet("blog", blogToDom);
+
+  })
+
+})
+
+function loadBlog(i) {
+  document.getElementById('submitBlog').innerText = "Update";
+  document.getElementById('blogTitle').value = blog[i].title;
+  isUpdate = true;
+  updateBlog = { num: i, post: blog[i] };
+  quill.root.innerHTML = blog[i].body;
+}
+
+

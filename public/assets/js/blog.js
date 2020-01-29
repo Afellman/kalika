@@ -29,9 +29,21 @@ function showHideMobileNav(showHide) {
 ham[0].addEventListener("click", function (e) {
     if (!ham[0].classList.contains('clicked')) {
         showHideMobileNav("show");
-        ham[0].classList.add("clicked")
+        ham[0].classList.add("clicked");
     } else {
         ham[0].classList.remove("clicked");
         showHideMobileNav("hide");
     }
 })
+
+httpGet("blog", blogToDom);
+
+function blogToDom(res) {
+    const parsed = JSON.parse(res);
+    blog = parsed;
+    const div = document.getElementById('Page-container');
+    const html = blog.map((post, i) => {
+        return `<div class="Row row"><div class='col-md-12'>${post.body}</div></div>`
+    });
+    div.innerHTML = html;
+}

@@ -38,24 +38,40 @@ app.post('/backend/pass', (req, res) => {
 })
 
 app.get('/backend/photos', (req, res) => {
-  fs.readFile(__dirname + '/photoList.json', (err, data) => {
+  fs.readFile(__dirname + '/public/assets/js/photoList.json', (err, data) => {
+    res.send(data)
+  })
+});
+
+app.get('/backend/blog', (req, res) => {
+  fs.readFile(__dirname + '/public/assets/js/blog.json', (err, data) => {
     res.send(data)
   })
 })
 
+app.post('/backend/blog', (req, res) => {
+  fs.writeFile(__dirname + '/public/assets/js/blog.json', JSON.stringify(req.body), function (err) {
+    if (err) {
+      console.log(err);
+      res.sendStatus(500);
+    } else {
+      res.sendStatus(200)
+    }
+  })
+})
+
 app.post('/backend/deleteImg', (req, res) => {
-  console.log(req.body)
   fs.unlink(__dirname + '/public' + req.body.src, (err) => {
     if (err) {
       console.log(err);
       res.sendStatus(500);
     } else {
-      fs.readFile(__dirname + '/photoList.json', function (err, data) {
+      fs.readFile(__dirname + '/public/assets/js/photoList.json', function (err, data) {
         var json = JSON.parse(data);
         var newJSON = json.filter((el, i) => {
           return i !== req.body.index
         })
-        fs.writeFile(__dirname + '/photoList.json', JSON.stringify(newJSON), function (err) {
+        fs.writeFile(__dirname + '/public/assets/js/photoList.json', JSON.stringify(newJSON), function (err) {
           if (err) {
             console.log(err);
             res.sendStatus(500);
@@ -72,11 +88,11 @@ app.post('/backend/newImgData', (req, res) => {
   var imgData = req.body.data;
   var index = req.body.index;
 
-  fs.readFile(__dirname + '/photoList.json', function (err, data) {
+  fs.readFile(__dirname + '/public/assets/js/photoList.json', function (err, data) {
     var json = JSON.parse(data);
     json[index] = imgData;
     console.log(req.body)
-    fs.writeFile(__dirname + '/photoList.json', JSON.stringify(json), function (err) {
+    fs.writeFile(__dirname + '/public/assets/js/photoList.json', JSON.stringify(json), function (err) {
       if (err) {
         console.log(err);
         res.sendStatus(500);
@@ -103,11 +119,11 @@ app.post('/backend/newPhoto', (req, res) => {
     } else {
       console.log('File saved.')
 
-      fs.readFile(__dirname + '/photoList.json', function (err, data) {
+      fs.readFile(__dirname + '/public/assets/js/photoList.json', function (err, data) {
         var json = JSON.parse(data)
         json.push(newData)
 
-        fs.writeFile(__dirname + '/photoList.json', JSON.stringify(json), function (err) {
+        fs.writeFile(__dirname + '/public/assets/js/photoList.json', JSON.stringify(json), function (err) {
           if (err) {
             console.log(err);
             res.sendStatus(500);
@@ -136,7 +152,7 @@ app.post('/backend/contact-submit', (req, res) => {
   console.log('/contact-submit', req.body)
   var mailOptions = {
     from: process.env.EMAIL,
-    to: process.env.MODE == "dev" ? 'red.kasid@gmail.com': 'kalika.wrap@gmail.com' ,
+    to: process.env.MODE == "dev" ? 'red.kasid@gmail.com' : 'kalika.wrap@gmail.com',
     cc: process.env.MODE == "production" ? 'red.kasid@gmail.com' : '',
     subject: req.body.sub,
     text: req.body.message,
@@ -146,10 +162,10 @@ app.post('/backend/contact-submit', (req, res) => {
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
       console.log(error);
-      res.send({status: "error", error: error})
+      res.send({ status: "error", error: error })
     } else {
       console.log('Email sent: ' + info.response);
-      res.send({status: 'sent'})
+      res.send({ status: 'sent' })
     }
   });
 
