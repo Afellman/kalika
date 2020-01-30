@@ -43,7 +43,8 @@ function blogToDom(res) {
     blog = parsed;
     const div = document.getElementById('Page-container');
     const html = blog.map((post, i) => {
-        return `<div class="Row row"><div class='col-md-12'>${post.body}</div></div>`
+        const cleanedBody = post.body.replace(/style="[a-zA-Z0-9:;\.\s\(\)\-\,]*"/gi, "").replace(/<p><br><\/p>/gi, "");
+        return `<div class="Row row"><div class='col-md-12'><h3 class="section-title">${post.title}</h3><div class="blog-body">${cleanedBody}}</div></div></div>`;
     });
-    div.innerHTML = html;
+    div.innerHTML = html
 }

@@ -131,12 +131,16 @@ function blogToDom(res) {
   div.innerHTML = html;
 }
 
+
+document.getElementById("cancelBlog").addEventListener("click", freshBlog);
+
 document.getElementById("submitBlog").addEventListener("click", () => {
   const newBody = quill.root.innerHTML;
-  const title = document.getElementById("blogTitle");
+  const title = document.getElementById("blogTitle").value;
+
   if (isUpdate) {
     blog[updateBlog.num].body = newBody
-
+    blog[updateBlog.num].title = title
   } else {
     const newPost = {
       "date": new Date().toUTCString(),
@@ -148,21 +152,26 @@ document.getElementById("submitBlog").addEventListener("click", () => {
 
   httpPost("blog", "application/json", JSON.stringify(blog), () => {
     alert("New post submitted");
-    document.getElementById('submitBlog').innerText = "submit";
-    isUpdate = false;
-    updateBlog = {};
-    quill.root.innerHTML = "What's on your mind?";
-    document.getElementById('blogTitle').value = "";
+    freshBlog();
     httpGet("blog", blogToDom);
-
   })
-
 })
+
+function freshBlog() {
+  document.getElementById('submitBlog').innerText = "Submit";
+  isUpdate = false;
+  updateBlog = {};
+  quill.root.innerHTML = "What's on your mind?";
+  document.getElementById('blogTitle').value = "";
+  document.getElementById('cancelBlog').style.display = "inline-block";
+}
 
 function loadBlog(i) {
   document.getElementById('submitBlog').innerText = "Update";
+  document.getElementById('cancelBlog').style.display = "inline-block";
   document.getElementById('blogTitle').value = blog[i].title;
   isUpdate = true;
+
   updateBlog = { num: i, post: blog[i] };
   quill.root.innerHTML = blog[i].body;
 }
