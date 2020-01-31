@@ -576,6 +576,14 @@ button {
 .blog-container .blog-body p {
   color: #555 !important;
 }
+
+.blog-post {
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    text-shadow: 1px 0px 3px #6e6e6e29;
+    padding: 30px;
+    background: #d3d3d31f;
+    box-shadow: 0px 1px 2px 0px rgba(0,0,0,.1);
+}
 /*======= BACKEND =======*/
 
 #mainBackend {

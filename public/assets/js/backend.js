@@ -127,12 +127,19 @@ function blogToDom(res) {
   const div = document.getElementById('prevPosts');
   const html = blog.map((post, i) => {
     return `<li onclick="loadBlog(${i})">"${post.title}"<br/> ${post.date}</li>`
-  });
+  }).join("");
   div.innerHTML = html;
 }
 
 
 document.getElementById("cancelBlog").addEventListener("click", freshBlog);
+document.getElementById("deleteBlog").addEventListener("click", () => {
+  let del = confirm("Are you sure you want to delete this post?");
+  if (del) {
+    deleteBlog();
+  }
+});
+
 
 document.getElementById("submitBlog").addEventListener("click", () => {
   const newBody = quill.root.innerHTML;
@@ -151,7 +158,7 @@ document.getElementById("submitBlog").addEventListener("click", () => {
   }
 
   httpPost("blog", "application/json", JSON.stringify(blog), () => {
-    alert("New post submitted");
+    alert(isUpdate ? "Post Updated" : "New post submitted");
     freshBlog();
     httpGet("blog", blogToDom);
   })
@@ -163,17 +170,28 @@ function freshBlog() {
   updateBlog = {};
   quill.root.innerHTML = "What's on your mind?";
   document.getElementById('blogTitle').value = "";
-  document.getElementById('cancelBlog').style.display = "inline-block";
+  document.getElementById('cancelBlog').style.display = "none";
+  document.getElementById('deleteBlog').style.display = "none";
 }
 
 function loadBlog(i) {
   document.getElementById('submitBlog').innerText = "Update";
   document.getElementById('cancelBlog').style.display = "inline-block";
+  document.getElementById('deleteBlog').style.display = "inline-block";
   document.getElementById('blogTitle').value = blog[i].title;
   isUpdate = true;
 
   updateBlog = { num: i, post: blog[i] };
   quill.root.innerHTML = blog[i].body;
+}
+
+function deleteBlog() {
+  blog.splice(updateBlog.num, 1);
+  httpPost("blog", "application/json", JSON.stringify(blog), () => {
+    alert("Post Deleted");
+    freshBlog();
+    httpGet("blog", blogToDom);
+  })
 }
 
 
