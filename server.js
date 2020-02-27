@@ -25,7 +25,7 @@ app.get('/backend', (req, res) => {
 
 app.get('/blog', (req, res) => {
   res.sendFile(path.join(__dirname, '/public/blog.html'))
-})
+});
 
 
 app.post('/backend/pass', (req, res) => {
@@ -59,6 +59,12 @@ app.post('/backend/blog', (req, res) => {
     }
   })
 })
+
+app.get('/backend/blog/:id', (req, res) => {
+  res.send(req.params.id)
+  // res.sendFile(path.join(__dirname, '/public/blog.html'))
+});
+
 
 app.post('/backend/deleteImg', (req, res) => {
   fs.unlink(__dirname + '/public' + req.body.src, (err) => {

@@ -41,10 +41,62 @@ httpGet("blog", blogToDom);
 function blogToDom(res) {
     const parsed = JSON.parse(res);
     blog = parsed;
-    const div = document.getElementById('Page-container');
+    const div = document.getElementById('blog-container');
     const html = blog.map((post, i) => {
         const cleanedBody = post.body.replace(/style="[a-zA-Z0-9:;\.\s\(\)\-\,]*"/gi, "").replace(/<p><br><\/p>/gi, "");
-        return `<div class="Row row"><div class='col-md-10 offset-md-1 blog-post'><h3 class="section-title">${post.title}</h3><div class="blog-body">${cleanedBody}</div></div></div><hr/>`;
+
+        return `
+        <div class="post">
+        <div class="post-thumb text-center">
+          <a href=""><img src="assets/images/openWrapsWood.jpg" alt=""></a>
+        </div>
+        <div class="post-content">
+          <div class="post-title text-center text-uppercase">
+            <h3><a href="javascript:getBlog('${post.id}')">${post.title}</a></h3>
+          </div>
+          <div class="post-body">
+            <p>${truncate(cleanedBody, 500)}</p>
+          </div>
+          <div class="text-center">
+            <button class="btn btnShadow continue-reading text-center text-uppercase">
+              <a href="javascript:getBlog('${post.id}')">Continue Reading</a>
+            </button>
+          </div>
+          <div class="post-meta">
+            <div class="float-left list-inline author-meta">
+              <span class="author">By <a href="#">Jennifer </a></span>
+              <span class="date"> On October 13, 2017</span>
+            </div>
+            <!-- Social Links -->
+            <!-- <div class="float-right list-inline social-share"> 
+              <span><a href=""><i class="fa fa-facebook"></i></a></span>
+              <span><a href=""><i class="fa fa-twitter"></i></a></span>
+              <span><a href=""><i class="fa fa-pinterest"></i></a></span>
+              <span><a href=""><i class="fa fa-google-plus"></i></a></span>
+              <span><a href=""><i class="fa fa-instagram"></i></a></span>
+            </div> -->
+          </div>
+        </div>
+      </div>
+      `
+        // return `<div class="Row row"><div class='col-md-10 offset-md-1 blog-post'><h3 class="section-title">${post.title}</h3><div class="blog-body">${cleanedBody}</div></div></div><hr/>`;
     }).join("");
     div.innerHTML = html
+}
+
+/**
+ *
+ * @param { string } text Text to be truncated
+* @param { int } letterCount Max amount of characters you want to display.
+*/
+const truncate = (text, letterCount) => {
+    return text.slice(0, letterCount - 3) + "...";
+};
+
+
+function getBlog(id) {
+    console.log(id)
+    httpGet("blog/" + id, (res) => {
+        console.log(res)
+    })
 }

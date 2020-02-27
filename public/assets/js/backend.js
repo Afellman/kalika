@@ -152,7 +152,8 @@ document.getElementById("submitBlog").addEventListener("click", () => {
     const newPost = {
       "date": new Date().toUTCString(),
       "title": title,
-      "body": newBody
+      "body": newBody,
+      "id": makeSudoGUID()
     }
     blog.push(newPost);
   }
@@ -195,3 +196,10 @@ function deleteBlog() {
 }
 
 
+function makeSudoGUID() {
+  let newGuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    let r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+  return newGuid;
+}
