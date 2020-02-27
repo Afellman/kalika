@@ -584,6 +584,37 @@ button {
     background: #d3d3d31f;
     box-shadow: 0px 1px 2px 0px rgba(0,0,0,.1);
 }
+
+/* New Demo */
+.post-thumb {
+  
+}
+
+.post-thumb img{
+  max-width: 100%;
+  max-height: 475px;
+}
+
+.post-content {
+  padding: 2rem;
+}
+
+.post-meta {
+  overflow: hidden;
+    border-top: 1px solid #e2e2e2;
+    margin-top: 40px;
+    padding-top: 20px;
+    line-height: 1;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.post-meta .author-meta{
+  color: #777;
+    font-style: italic;
+    font-size: 14px;
+    margin-left: 0;
+}
 /*======= BACKEND =======*/
 
 #mainBackend {
@@ -619,3 +650,4 @@ button {
   max-width: 100%;
   box-shadow: 0px 10px 29px -6px grey;
 }
+
