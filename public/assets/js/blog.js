@@ -52,14 +52,14 @@ function blogToDom(res) {
         </div>
         <div class="post-content">
           <div class="post-title text-center text-uppercase">
-            <h3><a href="javascript:getBlog('${post.id}')">${post.title}</a></h3>
+            <h3><a href="/blog-post?${post.id}">${post.title}</a></h3>
           </div>
           <div class="post-body">
             <p>${truncate(cleanedBody, 500)}</p>
           </div>
           <div class="text-center">
             <button class="btn btnShadow continue-reading text-center text-uppercase">
-              <a href="javascript:getBlog('${post.id}')">Continue Reading</a>
+              <a href="/blog-post?${post.id}">Continue Reading</a>
             </button>
           </div>
           <div class="post-meta">
@@ -84,19 +84,6 @@ function blogToDom(res) {
     div.innerHTML = html
 }
 
-/**
- *
- * @param { string } text Text to be truncated
-* @param { int } letterCount Max amount of characters you want to display.
-*/
 const truncate = (text, letterCount) => {
     return text.slice(0, letterCount - 3) + "...";
 };
-
-
-function getBlog(id) {
-    console.log(id)
-    httpGet("blog/" + id, (res) => {
-        console.log(res)
-    })
-}

@@ -27,6 +27,11 @@ app.get('/blog', (req, res) => {
   res.sendFile(path.join(__dirname, '/public/blog.html'))
 });
 
+app.get('/blog-post?:id', (req, res) => {
+  // res.send(req.params.id)
+  res.sendFile(path.join(__dirname, '/public/blog-post.html'))
+});
+
 
 app.post('/backend/pass', (req, res) => {
   var pass = Buffer.from(req.body.pass, 'base64').toString('ascii');
@@ -60,10 +65,7 @@ app.post('/backend/blog', (req, res) => {
   })
 })
 
-app.get('/backend/blog/:id', (req, res) => {
-  res.send(req.params.id)
-  // res.sendFile(path.join(__dirname, '/public/blog.html'))
-});
+
 
 
 app.post('/backend/deleteImg', (req, res) => {

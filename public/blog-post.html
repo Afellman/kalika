@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Kalika</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+  <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style.css" />
+</head>
+
+<body>
+  <!-- Nav -->
+  <div id="Nav">
+    <div class="Nav-links">
+      <ul id='Nav-largeUl' class='closed null'>
+        <li class="nav-li" data-to='home' id='Nav-brand'>
+          <img src="assets/images/logoBlue.png" />
+        </li>
+        <li class="nav-li" data-to='home'>
+          Home
+        </li>
+        <li class="nav-li" data-to='about'>
+          About
+        </li>
+        <li class="nav-li" data-to='products'>
+          Products
+        </li>
+        <li class="nav-li" data-to='contact'>
+          Contact
+        </li>
+        <li class="nav-li" data-to='contact'>
+          <a href="./blog.html">Blog</a>
+        </li>
+      </ul>
+    </div>
+    <div class="ham">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <hr class='noMarg' />
+  </div>
+  <div id="NavMobile">
+    <ul>
+      <li class="nav-li" data-to='home'>
+        Home
+      </li>
+      <hr class="noMarg">
+      <li class="nav-li" data-to='about'>
+        About
+      </li>
+      <hr class="noMarg">
+      <li class="nav-li" data-to='products'>
+        Products
+      </li>
+      <hr class="noMarg">
+      <li class="nav-li" data-to='contact'>
+        Contact
+      </li>
+      <hr class="noMarg">
+      <li class="nav-li" data-to='blog'>
+        Blog
+      </li>
+      <hr class="noMarg">
+    </ul>
+  </div>
+  <hr class='noMarg' id="Nav-mobile-hr" />
+  <div id="Home">
+    <h1 id='TopHero-slogan'>Blog</h1>
+    <!-- Move slogan under photo "KALIKA Beeswax Wrap" -->
+  </div>
+  <hr style='margin-top: 0px' />
+  <!-- <div id='Page-container' class='container blog-container'>
+
+  </div> -->
+
+  <!-- Demo Idea -->
+  <div class="container">
+
+    <div class="Row row">
+      <div class="col-md-8" id="post-container">
+
+      </div>
+      <div class="col-md-4">
+        <div class="p-5 bg-light">
+          POSTS
+        </div>
+      </div>
+      <!-- End Demo -->
+      <hr />
+    </div>
+    <div id="contact">
+      <div class='row'>
+        <div class="col-md-12 mt-5" id='wholeSale'>
+          <p>Interested in becoming a KALIKA whole saler?</p>
+          <a target="_blank"
+            href="https://docs.google.com/forms/d/e/1FAIpQLSfCqK0BKPdKnAGzvd52_6P6gugGvW7YaLR1byd3UYYMtt4vIw/viewform">
+            <button class="btn btnShadow">Click Here</button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <hr />
+  <!-- FOOTER -->
+  <div class='container'>
+    <div class='row' id="Footer">
+      <div class="col-md-12 ">
+        <div class='row'>
+          <div class='col-md-6' id='Footer-contact'>
+            <h5>CONTACT</h5>
+            <p>
+              <!-- Make link to email software -->
+              <i class="fas fa-envelope "></i>
+              <a href="mailto:kalika.wrap@gmail.com">kalika.wrap@gmail.com</a>
+            </p>
+            <p>
+              <i class="fas fa-map-marker-alt "></i>Nitiprayan, Yogyakarta, Indonesia
+            </p>
+            <!-- Add instagram link -->
+          </div>
+          <div class='col-md-6'>
+            <h5>VISIT US</h5>
+            <p>
+              <a href='https://www.tokopedia.com/kalika-wrap'> Tokopedia Shop</a>
+            </p>
+          </div>
+        </div>
+        <div class="row text-center ">
+          <div class='col-md-12'>
+            ©Copyright 2019 Kalika
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+    integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+    integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+    crossorigin="anonymous"></script>
+  <script src="/assets/js/utils.js"></script>
+  <script src="/assets/js/blog.js "></script>
+
+  <script>
+   $.get("/blog/singlePost/" + window.location.search.split("?")[1], (res) => {
+    console.log(res);
+   })
+  </script>
+</body>
+
+</html>
