@@ -3,7 +3,7 @@ const express = require('express');
 const nodemailer = require('nodemailer');
 const smtpTransport = require('nodemailer-smtp-transport');
 const fileUpload = require('express-fileupload');
-const blogController = require("./blogController");
+// const blogController = require("./blogController");
 const fs = require('fs');
 require('dotenv').config();
 

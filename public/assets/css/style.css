@@ -593,6 +593,11 @@ button {
   box-shadow: 0 0 2px 0 rgba(51, 51, 51, 0.08), 0 0 2px 0 rgba(51, 51, 51, 0.3);
   margin-bottom: 2rem; 
 }
+
+.post-body a{
+  color: burlywood;
+}
+
 .post-thumb {
   
 }
