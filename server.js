@@ -3,6 +3,7 @@ const express = require('express');
 const nodemailer = require('nodemailer');
 const smtpTransport = require('nodemailer-smtp-transport');
 const fileUpload = require('express-fileupload');
+const blogController = require("./blogController");
 const fs = require('fs');
 require('dotenv').config();
 
@@ -13,6 +14,7 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'))
 app.use(fileUpload());
+
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '/public/index.html'))
@@ -29,7 +31,20 @@ app.get('/blog', (req, res) => {
 
 app.get('/blog-post?:id', (req, res) => {
   // res.send(req.params.id)
-  res.sendFile(path.join(__dirname, '/public/blog-post.html'))
+  res.sendFile(path.join(__dirname, '/public/blog-post.html'));
+});
+
+app.get('/blog/singlePost/:id', (req, res) => {
+  fs.readFile(__dirname + '/public/assets/js/blog.json', (err, data) => {
+    const posts = JSON.parse(data);
+    let thisPost = {};
+    for (const i in posts) {
+      if (posts[i].id === req.params.id) {
+        thisPost = posts[i];
+      }
+    }
+    res.send(thisPost);
+  })
 });
 
 
