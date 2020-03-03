@@ -108,7 +108,7 @@ function buildImages(res) {
     return (
       `<div class='currentStyles col-md-${col} col-6 text-center'>
 	    <div class='imageWrap'>
-     		<img src='currentStyles/${photo.path}'/>
+     		<img src='assets/images/currentStyles/${photo.path}'/>
 	    </div>
       <p>${photo.name}</p>
       <p>${photo.size}</p>

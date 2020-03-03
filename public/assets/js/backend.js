@@ -1,10 +1,14 @@
-var btn = document.getElementById('submit');
-var upload = document.getElementById('customFile');
 var imgToDelete = {};
 var modalDelete = document.getElementById('modalDelete');
 var blog = [];
 var isUpdate = false;
 var updateBlog = {};
+
+
+if (location.href.indexOf("localhost") !== -1) {
+  document.getElementById('pass').value = "smile";
+  sendPass();
+}
 
 modalDelete.addEventListener('click', function () {
   httpPost('deleteImg', 'application/json', imgToDelete, (res) => {
@@ -13,11 +17,12 @@ modalDelete.addEventListener('click', function () {
   })
 });
 
-upload.addEventListener('input', function () {
-  uploadPic();
+document.getElementById('customFile').addEventListener('input', function (e) {
+  var photo = e.target.files[0];
+  uploadPic(photo, "style");
 })
 
-btn.addEventListener('click', function (e) {
+document.getElementById('submit').addEventListener('click', function (e) {
   sendPass();
 })
 
@@ -63,21 +68,20 @@ function deleteBtnClick(index) {
   imgToDelete = src;
 }
 
-function uploadPic(files) {
-  var photo = document.getElementById('customFile').files[0];
+function uploadPic(photo, type) {
   var formData = new FormData();
   formData.append('photo', photo);
+  formData.append('type', type);
   httpPost('newPhoto', false, formData, (res) => {
     getCurrent()
   })
 }
 
-
 function buildImgDivs(photoArray) {
   var photos = photoArray.map((el, i) => {
     return (
       `<div class='text-left col-md-2'>
-        <img id='img${i}' src='/currentStyles/${el.path}'/>
+        <img id='img${i}' src='/assets/images/currentStyles/${el.path}'/>
         <label> Name</label>
         <input id='nameInput${i}' class='form-control' value='${el.name}'/>
         <label>Size</label>
@@ -140,20 +144,41 @@ document.getElementById("deleteBlog").addEventListener("click", () => {
   }
 });
 
+document.getElementById('blogImgs').addEventListener("input", (e) => {
+  let files = e.target.files;
+  let nameDiv = document.getElementById('blogImages');
+  let text = "";
+  for (let i = 0; i < files.length; i++) {
+    const li = document.createElement("li");
+    text += files[i].name + ",";
+  }
+  nameDiv.innerText = text;
+});
+
 
 document.getElementById("submitBlog").addEventListener("click", () => {
   const newBody = quill.root.innerHTML;
   const title = document.getElementById("blogTitle").value;
+  const coverImgDiv = document.getElementById("blogCoverUpload");
+  const innerImages = document.getElementById("blogImgs").files;
+
+  if (coverImgDiv.files.length == 0) {
+    alert("needs a cover img");
+    return false;
+  }
+  const coverImg = coverImgDiv.files[0].name;
 
   if (isUpdate) {
     blog[updateBlog.num].body = newBody
     blog[updateBlog.num].title = title
+    blog[updateBlog.num].coverImg = coverImg
   } else {
     const newPost = {
       "date": new Date().toUTCString(),
       "title": title,
       "body": newBody,
-      "id": makeSudoGUID()
+      "id": makeSudoGUID(),
+      "coverPic": coverImg
     }
     blog.push(newPost);
   }
@@ -163,6 +188,12 @@ document.getElementById("submitBlog").addEventListener("click", () => {
     freshBlog();
     httpGet("blog", blogToDom);
   })
+
+  uploadPic(coverImgDiv.files[0], "blog");
+
+  for (let i = 0; i < innerImages.length; i++) {
+    uploadPic(innerImages[i], "blog");
+  }
 })
 
 function freshBlog() {
@@ -173,6 +204,10 @@ function freshBlog() {
   document.getElementById('blogTitle').value = "";
   document.getElementById('cancelBlog').style.display = "none";
   document.getElementById('deleteBlog').style.display = "none";
+  document.getElementById('blogCoverUpload').value = "";
+  document.getElementById('blogImgs').value = "";
+  document.getElementById('blogCoverImg').src = "";
+
 }
 
 function loadBlog(i) {
@@ -180,6 +215,7 @@ function loadBlog(i) {
   document.getElementById('cancelBlog').style.display = "inline-block";
   document.getElementById('deleteBlog').style.display = "inline-block";
   document.getElementById('blogTitle').value = blog[i].title;
+  document.getElementById('blogCoverImg').src = "/assets/images/blogPics/" + blog[i].coverImg;
   isUpdate = true;
 
   updateBlog = { num: i, post: blog[i] };

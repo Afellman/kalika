@@ -49,13 +49,16 @@ function blogToDom(res) {
   blog = parsed;
   const div = document.getElementById('blog-container');
   const html = blog.map((post, i) => {
-
-    const cleanedBody = post.body.replace(/style="[a-zA-Z0-9:;\.\s\(\)\-\,]*"/gi, "").replace(/<p><br><\/p>/gi, "");
-
+    let cleanedBody = post.body.replace(/style="[a-zA-Z0-9:;\.\s\(\)\-\,]*"/gi, "").replace(/<p><br><\/p>/gi, "");
+    const imgs = [...post.body.matchAll(/\[\[.*?\]\]/g)];
+    imgs.forEach(img => {
+      const split = cleanedBody.split(img[0]);
+      cleanedBody = split.join("");
+    })
     return `
         <div class="post">
         <div class="post-thumb text-center">
-          <a href=""><img src="assets/images/openWrapsWood.jpg" alt=""></a>
+          <a href="/blog-post?${post.id}"><img src="assets/images/blogPics/${post.coverImg}" alt=""></a>
         </div>
         <div class="post-content">
           <div class="post-title text-center text-uppercase">
@@ -93,11 +96,19 @@ function blogToDom(res) {
 
 function buildSinglePost(post) {
   const div = document.getElementById('post-container');
-  const cleanedBody = post.body.replace(/style="[a-zA-Z0-9:;\.\s\(\)\-\,]*"/gi, "").replace(/<p><br><\/p>/gi, "");
+  let cleanedBody = post.body.replace(/style="[a-zA-Z0-9:;\.\s\(\)\-\,]*"/gi, "").replace(/<p><br><\/p>/gi, "");
+  const imgs = [...post.body.matchAll(/\[\[.*?\]\]/g)];
+  imgs.forEach(img => {
+    const split = cleanedBody.split(img[0]);
+    const imgTag = document.createElement("img");
+    imgTag.src = img[0].replace("[[", "/assets/images/blogPics/").replace("]]", "").replace(" ", "");
+
+    cleanedBody = split.join(imgTag.innerHTML);
+  })
   const html = `
         <div class="post">
         <div class="post-thumb text-center">
-          <a href=""><img src="assets/images/openWrapsWood.jpg" alt=""></a>
+        <img src="assets/images/blogPics/${post.coverImg}" alt="">
         </div>
         <div class="post-content">
           <div class="post-title text-center text-uppercase">

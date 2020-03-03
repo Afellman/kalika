@@ -27,12 +27,14 @@
     </div>
   </div>
 
+  <div class="text-center">
+    <img src="https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg"
+      class="rounded-circle z-depth-1-half avatar-pic pb-5 mb" alt="example placeholder avatar">
+  </div>
   <div id="mainBackend" style="display:none;" class="container">
     <div class="row">
-      <h1>Photos</h1>
-      <div class='col-md-3 mx-auto text-center'>
-        <img src="https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg"
-          class="rounded-circle z-depth-1-half avatar-pic pb-5 mb" alt="example placeholder avatar">
+      <div class='col-md-3'>
+        <h1>Photos</h1>
         <h4>New Photo</h4>
         <div class="custom-file text-left">
           <input type="file" class="custom-file-input" id="customFile">
@@ -57,12 +59,32 @@
         </ol>
       </div>
       <div class="col-md-9">
-        <h3>Title</h3>
+        <h4>Title</h4>
         <button id="submitBlog">Submit</button>
         <button id="cancelBlog" style="display:none">Cancel</button>
         <button id="deleteBlog" style="display:none">Delete</button>
         <div style="padding: 10px 0px">
           <input class="form-control" id="blogTitle" placeholder="title" />
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <h4>Cover Img</h4>
+            <input type="file" id="blogCoverUpload" accept="image/*">
+          </div>
+          <div class="col-md-6">
+            <h4>Blog Images</h4>
+
+            <input type="file" id="blogImgs" multiple accept="image/*">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <img id="blogCoverImg" src="" height="100px" />
+          </div>
+          <div class="col-md-6">
+            <ul id="blogImages"></ul>
+          </div>
         </div>
         <div id="editor">
           <p>What's on your mind?</p>

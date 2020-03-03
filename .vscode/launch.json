@@ -8,7 +8,7 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
-      "program": "/Users/Andrew/Desktop/kalikaAgain/server.js"
+      "program": "/Users/afell/source/repos/kalika/server.js"
     }
   ]
 }

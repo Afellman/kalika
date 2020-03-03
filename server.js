@@ -58,7 +58,7 @@ app.post('/backend/pass', (req, res) => {
 })
 
 app.get('/backend/photos', (req, res) => {
-  fs.readFile(__dirname + '/public/assets/js/photoList.json', (err, data) => {
+  fs.readFile(__dirname + '/public/assets/js/currentStyles.json', (err, data) => {
     res.send(data)
   })
 });
@@ -89,12 +89,12 @@ app.post('/backend/deleteImg', (req, res) => {
       console.log(err);
       res.sendStatus(500);
     } else {
-      fs.readFile(__dirname + '/public/assets/js/photoList.json', function (err, data) {
+      fs.readFile(__dirname + '/public/assets/js/currentStyles.json', function (err, data) {
         var json = JSON.parse(data);
         var newJSON = json.filter((el, i) => {
           return i !== req.body.index
         })
-        fs.writeFile(__dirname + '/public/assets/js/photoList.json', JSON.stringify(newJSON), function (err) {
+        fs.writeFile(__dirname + '/public/assets/js/currentStyles.json', JSON.stringify(newJSON), function (err) {
           if (err) {
             console.log(err);
             res.sendStatus(500);
@@ -111,11 +111,11 @@ app.post('/backend/newImgData', (req, res) => {
   var imgData = req.body.data;
   var index = req.body.index;
 
-  fs.readFile(__dirname + '/public/assets/js/photoList.json', function (err, data) {
+  fs.readFile(__dirname + '/public/assets/js/currentStyles.json', function (err, data) {
     var json = JSON.parse(data);
     json[index] = imgData;
     console.log(req.body)
-    fs.writeFile(__dirname + '/public/assets/js/photoList.json', JSON.stringify(json), function (err) {
+    fs.writeFile(__dirname + '/public/assets/js/currentStyles.json', JSON.stringify(json), function (err) {
       if (err) {
         console.log(err);
         res.sendStatus(500);
@@ -128,6 +128,10 @@ app.post('/backend/newImgData', (req, res) => {
 
 app.post('/backend/newPhoto', (req, res) => {
   var photo = req.files.photo;
+  let type = req.body.type;
+  let path = ""
+  let jsonPath = "";
+
   var newData = {
     name: photo.name,
     size: '',
@@ -135,29 +139,38 @@ app.post('/backend/newPhoto', (req, res) => {
     link: ''
   }
 
-  fs.writeFile(__dirname + '/public/currentStyles/' + photo.name, photo.data, 'binary', function (err) {
+  if (type == "style") {
+    path = "currentStyles";
+  } else if (type == "blog") {
+    path = "blogPics"
+  }
+
+
+  fs.writeFile(__dirname + '/public/assets/images/' + path + '/' + photo.name, photo.data, 'binary', function (err) {
     if (err) {
       res.sendStatus(500);
       console.log(err);
     } else {
       console.log('File saved.')
-
-      fs.readFile(__dirname + '/public/assets/js/photoList.json', function (err, data) {
-        var json = JSON.parse(data)
-        json.push(newData)
-
-        fs.writeFile(__dirname + '/public/assets/js/photoList.json', JSON.stringify(json), function (err) {
-          if (err) {
-            console.log(err);
-            res.sendStatus(500);
-          } else {
-            res.sendStatus(200)
-          }
+      if (type == "style") {
+        fs.readFile(__dirname + '/public/assets/js/' + path + '.json', function (err, data) {
+          var json = JSON.parse(data)
+          json.push(newData)
+          fs.writeFile(__dirname + '/public/assets/js/' + path + '.json', JSON.stringify(json), function (err) {
+            if (err) {
+              console.log(err);
+              res.sendStatus(500);
+            } else {
+              res.sendStatus(200)
+            }
+          })
         })
-      })
+      } else {
+        res.sendStatus(200);
+      }
+
     }
   })
-
 
 })
 
