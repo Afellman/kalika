@@ -162,17 +162,18 @@ document.getElementById("submitBlog").addEventListener("click", () => {
   const coverImgDiv = document.getElementById("blogCoverUpload");
   const innerImages = document.getElementById("blogImgs").files;
 
-  if (coverImgDiv.files.length == 0) {
+  if (!isUpdate && coverImgDiv.files.length == 0) {
     alert("needs a cover img");
     return false;
   }
-  const coverImg = coverImgDiv.files[0].name;
 
   if (isUpdate) {
     blog[updateBlog.num].body = newBody
-    blog[updateBlog.num].title = title
-    blog[updateBlog.num].coverImg = coverImg
+    blog[updateBlog.num].title = title;
+    coverImgDiv.files.length > 0 ? blog[updateBlog.num].coverImg = coverImg : null;
+
   } else {
+    const coverImg = coverImgDiv.files[0].name;
     const newPost = {
       "date": new Date().toUTCString(),
       "title": title,
@@ -181,6 +182,7 @@ document.getElementById("submitBlog").addEventListener("click", () => {
       "coverPic": coverImg
     }
     blog.push(newPost);
+    uploadPic(coverImgDiv.files[0], "blog");
   }
 
   httpPost("blog", "application/json", JSON.stringify(blog), () => {
@@ -189,7 +191,7 @@ document.getElementById("submitBlog").addEventListener("click", () => {
     httpGet("blog", blogToDom);
   })
 
-  uploadPic(coverImgDiv.files[0], "blog");
+
 
   for (let i = 0; i < innerImages.length; i++) {
     uploadPic(innerImages[i], "blog");
