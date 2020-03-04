@@ -175,7 +175,7 @@ document.getElementById("submitBlog").addEventListener("click", () => {
   } else {
     const coverImg = coverImgDiv.files[0].name;
     const newPost = {
-      "date": new Date().toUTCString(),
+      "date": new Date().toDateString(),
       "title": title,
       "body": newBody,
       "id": makeSudoGUID(),
