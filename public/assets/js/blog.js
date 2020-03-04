@@ -110,7 +110,7 @@ function blogTemplate(blogArray) {
           <div class="post-meta">
             <div class="float-left list-inline author-meta">
               <span class="author">By <a href="#">Jennifer </a></span>
-              <span class="date"> On October 13, 2017</span>
+              <span class="date"> ${post.date}</span>
             </div>
             <!-- Social Links -->
             <!-- <div class="float-right list-inline social-share"> 
@@ -134,11 +134,10 @@ function buildSinglePost(post) {
   const imgs = [...post.body.matchAll(/\[\[.*?\]\]/g)];
   imgs.forEach(img => {
     const split = cleanedBody.split(img[0]);
-    const imgTag = document.createElement("img");
-    imgTag.src = img[0].replace("[[", "/assets/images/blogPics/").replace("]]", "").replace(" ", "");
-
-    cleanedBody = split.join(imgTag.innerHTML);
-  });
+    const src = img[0].replace("[[", "/assets/images/blogPics/").replace("]]", "").replace(/\s/g, "");
+    const imgTag = `<img src="${src}" width="100%"/>`
+    cleanedBody = split.join(imgTag);
+  })
   const html = `
         <div class="post">
         <div class="post-thumb text-center">
@@ -154,7 +153,7 @@ function buildSinglePost(post) {
           <div class="post-meta">
             <div class="float-left list-inline author-meta">
               <span class="author">By <a href="#">Jennifer </a></span>
-              <span class="date"> On October 13, 2017</span>
+              <span class="date"> ${post.date}</span>
             </div>
             <!-- Social Links -->
             <!-- <div class="float-right list-inline social-share"> 
