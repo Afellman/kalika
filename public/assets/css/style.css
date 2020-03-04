@@ -569,24 +569,6 @@ button {
 
 /*======= BLOG =======*/
 
-
-.blog-container .blog-body h3 {
-  font-size: 1.25rem !important;
-}
-.blog-container .blog-body p {
-  color: #555 !important;
-}
-
-.blog-post {
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    text-shadow: 1px 0px 3px #6e6e6e29;
-    padding: 30px;
-    background: #d3d3d31f;
-    box-shadow: 0px 1px 2px 0px rgba(0,0,0,.1);
-}
-
-/* New Demo */
-
 .post {
   background: #d3d3d31f;
   text-shadow: 1px 0px 3px #6e6e6e29;
@@ -630,6 +612,12 @@ button {
     font-style: italic;
     font-size: 14px;
     margin-left: 0;
+}
+
+.paginationjs-pages ul > li {
+  padding: 5px 10px;
+  border: 1px solid rgba(0,0,0,.1);
+  display: inline;
 }
 /*======= BACKEND =======*/
 

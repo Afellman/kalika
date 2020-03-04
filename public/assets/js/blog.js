@@ -32,6 +32,7 @@ function showHideMobileNav(showHide) {
   navMobile.style.transform = pos;
 };
 
+// Mobile Hamburger click
 ham[0].addEventListener("click", function (e) {
   if (!ham[0].classList.contains('clicked')) {
     showHideMobileNav("show");
@@ -43,18 +44,52 @@ ham[0].addEventListener("click", function (e) {
 })
 
 
-
+// Reponse from blog ajax.
 function blogToDom(res) {
   const parsed = JSON.parse(res);
-  blog = parsed;
-  const div = document.getElementById('blog-container');
-  const html = blog.map((post, i) => {
+  const cleanedBlog = parsed.map((post, i) => {
     let cleanedBody = post.body.replace(/style="[a-zA-Z0-9:;\.\s\(\)\-\,]*"/gi, "").replace(/<p><br><\/p>/gi, "");
     const imgs = [...post.body.matchAll(/\[\[.*?\]\]/g)];
     imgs.forEach(img => {
       const split = cleanedBody.split(img[0]);
       cleanedBody = split.join("");
     })
+    post.body = cleanedBody;
+    return post;
+  });
+
+  // Paginate.js library for pagination.
+  $('#paginate-container').pagination({
+    dataSource: cleanedBlog,
+    pageSize: 3,
+    callback: function (data, pagination) {
+      var html = blogTemplate(data);
+      $('#blog-container').fadeOut(0, () => {
+        $('#blog-container').fadeIn().html(html);
+      });
+    }
+  });
+
+  archiveToDom(parsed);
+}
+
+function archiveToDom(blog) {
+  const archive = blog.map(post => {
+    return `
+    <div class="row">
+      <div class="col-md-12">
+        <img src="assets/images/blogPics/${post.coverImg}" width="100%"/>
+        <div class="bold">${post.title}</div> 
+        <div class="bold">${post.date}</div> 
+      </div>
+    </div>
+   `
+  });
+  $("#blog-archive-container").html(archive);
+}
+
+function blogTemplate(blogArray) {
+  const html = blogArray.map((post, i) => {
     return `
         <div class="post">
         <div class="post-thumb text-center">
@@ -65,7 +100,7 @@ function blogToDom(res) {
             <h3><a href="/blog-post?${post.id}">${post.title}</a></h3>
           </div>
           <div class="post-body">
-            <p>${truncate(cleanedBody, 500)}</p>
+            <p>${truncate(post.body, 500)}</p>
           </div>
           <div class="text-center">
             <button class="btn btnShadow continue-reading text-center text-uppercase">
@@ -89,9 +124,8 @@ function blogToDom(res) {
         </div>
       </div>
       `
-    // return `<div class="Row row"><div class='col-md-10 offset-md-1 blog-post'><h3 class="section-title">${post.title}</h3><div class="blog-body">${cleanedBody}</div></div></div><hr/>`;
   }).join("");
-  div.innerHTML = html
+  return html;
 }
 
 function buildSinglePost(post) {
@@ -104,7 +138,7 @@ function buildSinglePost(post) {
     imgTag.src = img[0].replace("[[", "/assets/images/blogPics/").replace("]]", "").replace(" ", "");
 
     cleanedBody = split.join(imgTag.innerHTML);
-  })
+  });
   const html = `
         <div class="post">
         <div class="post-thumb text-center">
@@ -137,6 +171,7 @@ function buildSinglePost(post) {
   // return `<div class="Row row"><div class='col-md-10 offset-md-1 blog-post'><h3 class="section-title">${post.title}</h3><div class="blog-body">${cleanedBody}</div></div></div><hr/>`;
   div.innerHTML = html
 }
+
 
 const truncate = (text, letterCount) => {
   return text.slice(0, letterCount - 3) + "...";
