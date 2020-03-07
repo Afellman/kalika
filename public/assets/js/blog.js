@@ -11,6 +11,7 @@ $('.nav-li').click(function () {
 if (location.pathname === "/blog") {
   httpGet("blog", blogToDom);
 } else {
+  httpGet("blog", archiveToDom);
   $.get("/blog/singlePost/" + window.location.search.split("?")[1], buildSinglePost)
 }
 
@@ -74,17 +75,22 @@ function blogToDom(res) {
 }
 
 function archiveToDom(blog) {
-  const archive = blog.map(post => {
-    return `
+  if (typeof blog === "string") {
+    blog = JSON.parse(blog);
+  }
+  const archive = blog.map((post, i) => {
+    let ret = `
       <div class="archive-post">
-        <img src="assets/images/blogPics/${post.coverImg}" width="100%"/>
-        <p class="bold">${post.title}</p> 
-        <p class="bold">${post.date}</p> 
-        </div>
-        <hr/>
+        <p><a href="/blog-post?${post.id}">${post.title}</a></p> 
+        <div class="archive-meta">${post.date}</div> 
+      </div>
    `
+    if (i < blog.length - 1) {
+      ret += "<hr/>";
+    }
+    return ret;
   });
-  $("#blog-archive-container").html(archive);
+  $("#blog-archive-container > div").html(archive);
 }
 
 function blogTemplate(blogArray) {
@@ -167,7 +173,7 @@ function buildSinglePost(post) {
       </div>
       `
   // return `<div class="Row row"><div class='col-md-10 offset-md-1 blog-post'><h3 class="section-title">${post.title}</h3><div class="blog-body">${cleanedBody}</div></div></div><hr/>`;
-  div.innerHTML = html
+  div.innerHTML = html;
 }
 
 

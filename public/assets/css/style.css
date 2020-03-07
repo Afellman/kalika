@@ -607,7 +607,7 @@ button {
     padding-bottom: 0;
 }
 
-.post-meta .author-meta, .archive-post > p:nth-last-of-type(1) {
+.post-meta .author-meta, .archive-meta {
   color: #777;
     font-style: italic;
     font-size: 14px;
@@ -625,8 +625,13 @@ button {
 }
 
 .archive-post {
-  margin: 1rem 0;
+  margin-top: 1rem;
 }
+
+.archive-post:not(:last-of-type) {
+  margin-bottom: 1rem;
+}
+
 
 .archive-post > img {
   margin-bottom: 1rem;

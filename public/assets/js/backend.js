@@ -161,7 +161,7 @@ document.getElementById("submitBlog").addEventListener("click", () => {
   const title = document.getElementById("blogTitle").value;
   const coverImgDiv = document.getElementById("blogCoverUpload");
   const innerImages = document.getElementById("blogImgs").files;
-
+  const coverImg = coverImgDiv.files[0] ? coverImgDiv.files[0].name : null;
   if (!isUpdate && coverImgDiv.files.length == 0) {
     alert("needs a cover img");
     return false;
@@ -173,7 +173,7 @@ document.getElementById("submitBlog").addEventListener("click", () => {
     coverImgDiv.files.length > 0 ? blog[updateBlog.num].coverImg = coverImg : null;
 
   } else {
-    const coverImg = coverImgDiv.files[0].name;
+
     const newPost = {
       "date": new Date().toDateString(),
       "title": title,
