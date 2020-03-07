@@ -569,7 +569,7 @@ button {
 
 /*======= BLOG =======*/
 
-.post {
+.post, #blog-archive-container {
   background: #d3d3d31f;
   text-shadow: 1px 0px 3px #6e6e6e29;
   box-shadow: 0 0 2px 0 rgba(51, 51, 51, 0.08), 0 0 2px 0 rgba(51, 51, 51, 0.3);
@@ -607,7 +607,7 @@ button {
     padding-bottom: 0;
 }
 
-.post-meta .author-meta{
+.post-meta .author-meta, .archive-post > p:nth-last-of-type(1) {
   color: #777;
     font-style: italic;
     font-size: 14px;
@@ -618,6 +618,18 @@ button {
   padding: 5px 10px;
   border: 1px solid rgba(0,0,0,.1);
   display: inline;
+}
+
+#blog-archive-container {
+  padding: 1.5rem;
+}
+
+.archive-post {
+  margin: 1rem 0;
+}
+
+.archive-post > img {
+  margin-bottom: 1rem;
 }
 /*======= BACKEND =======*/
 

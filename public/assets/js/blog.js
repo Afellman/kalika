@@ -76,13 +76,12 @@ function blogToDom(res) {
 function archiveToDom(blog) {
   const archive = blog.map(post => {
     return `
-    <div class="row">
-      <div class="col-md-12">
+      <div class="archive-post">
         <img src="assets/images/blogPics/${post.coverImg}" width="100%"/>
-        <div class="bold">${post.title}</div> 
-        <div class="bold">${post.date}</div> 
-      </div>
-    </div>
+        <p class="bold">${post.title}</p> 
+        <p class="bold">${post.date}</p> 
+        </div>
+        <hr/>
    `
   });
   $("#blog-archive-container").html(archive);
