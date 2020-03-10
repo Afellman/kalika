@@ -144,6 +144,15 @@ document.getElementById("deleteBlog").addEventListener("click", () => {
   }
 });
 
+document.getElementById("previewBlog").addEventListener("click", () => {
+  $.post("blog-preview", blog[updateBlog.num]).then(res => {
+    const a = document.createElement('a');
+    a.href = "/blog-preview?" + blog[updateBlog.num].id;
+    a.setAttribute("target", "_blank");
+    a.click();
+  })
+});
+
 document.getElementById('blogImgs').addEventListener("input", (e) => {
   let files = e.target.files;
   let nameDiv = document.getElementById('blogImages');
@@ -159,9 +168,11 @@ document.getElementById('blogImgs').addEventListener("input", (e) => {
 document.getElementById("submitBlog").addEventListener("click", () => {
   const newBody = quill.root.innerHTML;
   const title = document.getElementById("blogTitle").value;
+  const author = document.getElementById("blogAuthor").value;
   const coverImgDiv = document.getElementById("blogCoverUpload");
   const innerImages = document.getElementById("blogImgs").files;
   const coverImg = coverImgDiv.files[0] ? coverImgDiv.files[0].name : null;
+
   if (!isUpdate && coverImgDiv.files.length == 0) {
     alert("needs a cover img");
     return false;
@@ -170,6 +181,7 @@ document.getElementById("submitBlog").addEventListener("click", () => {
   if (isUpdate) {
     blog[updateBlog.num].body = newBody
     blog[updateBlog.num].title = title;
+    blog[updateBlog.num].author = author;
     coverImgDiv.files.length > 0 ? blog[updateBlog.num].coverImg = coverImg : null;
 
   } else {
@@ -177,6 +189,7 @@ document.getElementById("submitBlog").addEventListener("click", () => {
     const newPost = {
       "date": new Date().toDateString(),
       "title": title,
+      "author": author,
       "body": newBody,
       "id": makeSudoGUID(),
       "coverPic": coverImg
@@ -204,8 +217,10 @@ function freshBlog() {
   updateBlog = {};
   quill.root.innerHTML = "What's on your mind?";
   document.getElementById('blogTitle').value = "";
+  document.getElementById('blogAuthor').value = "";
   document.getElementById('cancelBlog').style.display = "none";
   document.getElementById('deleteBlog').style.display = "none";
+  document.getElementById('previewBlog').style.display = "none";
   document.getElementById('blogCoverUpload').value = "";
   document.getElementById('blogImgs').value = "";
   document.getElementById('blogCoverImg').src = "";
@@ -216,7 +231,9 @@ function loadBlog(i) {
   document.getElementById('submitBlog').innerText = "Update";
   document.getElementById('cancelBlog').style.display = "inline-block";
   document.getElementById('deleteBlog').style.display = "inline-block";
+  document.getElementById('previewBlog').style.display = "inline-block";
   document.getElementById('blogTitle').value = blog[i].title;
+  document.getElementById('blogAuthor').value = blog[i].author;
   document.getElementById('blogCoverImg').src = "/assets/images/blogPics/" + blog[i].coverImg;
   isUpdate = true;
 

@@ -34,6 +34,11 @@ app.get('/blog-post?:id', (req, res) => {
   res.sendFile(path.join(__dirname, '/public/blog-post.html'));
 });
 
+app.get('/blog-preview?:id', (req, res) => {
+  // res.send(req.params.id)
+  res.sendFile(path.join(__dirname, '/public/blog-preview.html'));
+});
+
 app.get('/blog/singlePost/:id', (req, res) => {
   fs.readFile(__dirname + '/public/assets/js/blog.json', (err, data) => {
     const posts = JSON.parse(data);
@@ -47,6 +52,25 @@ app.get('/blog/singlePost/:id', (req, res) => {
   })
 });
 
+app.post('/blog-preview', (req, res) => {
+  fs.writeFile(__dirname + '/public/assets/js/blogPreview.json', JSON.stringify(req.body), function (err) {
+    if (err) {
+      console.log(err);
+      res.sendStatus(500);
+    } else {
+      res.sendStatus(200)
+    }
+  })
+});
+
+
+app.get('/blog/preview/:id', (req, res) => {
+  fs.readFile(__dirname + '/public/assets/js/blogPreview.json', (err, data) => {
+    console.log(data)
+    const post = JSON.parse(data);
+    res.send(post);
+  })
+});
 
 app.post('/backend/pass', (req, res) => {
   var pass = Buffer.from(req.body.pass, 'base64').toString('ascii');

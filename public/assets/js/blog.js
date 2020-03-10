@@ -10,6 +10,9 @@ $('.nav-li').click(function () {
 
 if (location.pathname === "/blog") {
   httpGet("blog", blogToDom);
+} else if (location.pathname === "/blog-preview") {
+  httpGet("blog", archiveToDom);
+  $.get("/blog/preview/" + window.location.search.split("?")[1], buildSinglePost)
 } else {
   httpGet("blog", archiveToDom);
   $.get("/blog/singlePost/" + window.location.search.split("?")[1], buildSinglePost)
@@ -114,7 +117,7 @@ function blogTemplate(blogArray) {
           </div>
           <div class="post-meta">
             <div class="float-left list-inline author-meta">
-              <span class="author">By <a href="#">Jennifer </a></span>
+              <span class="author">By <a href="#">${post.author} </a></span>
               <span class="date"> ${post.date}</span>
             </div>
             <!-- Social Links -->
@@ -157,7 +160,7 @@ function buildSinglePost(post) {
           </div>
           <div class="post-meta">
             <div class="float-left list-inline author-meta">
-              <span class="author">By <a href="#">Jennifer </a></span>
+            <span class="author">By <a href="#">${post.author} </a></span>
               <span class="date"> ${post.date}</span>
             </div>
             <!-- Social Links -->
