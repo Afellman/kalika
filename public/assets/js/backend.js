@@ -69,12 +69,18 @@ function deleteBtnClick(index) {
 }
 
 function uploadPic(photo, type) {
-  var formData = new FormData();
-  formData.append('photo', photo);
-  formData.append('type', type);
-  httpPost('newPhoto', false, formData, (res) => {
-    getCurrent()
-  })
+  new Compressor(photo, {
+    quality: 0.3,
+    success(result) {
+      const formData = new FormData();
+      formData.append('photo', result, result.name);
+      formData.append('type', type);
+      httpPost('newPhoto', false, formData, (res) => {
+        getCurrent()
+      })
+    }
+  });
+
 }
 
 function buildImgDivs(photoArray) {
@@ -145,9 +151,32 @@ document.getElementById("deleteBlog").addEventListener("click", () => {
 });
 
 document.getElementById("previewBlog").addEventListener("click", () => {
-  $.post("blog-preview", blog[updateBlog.num]).then(res => {
+  const newBody = quill.root.innerHTML;
+  const title = document.getElementById("blogTitle").value;
+  const author = document.getElementById("blogAuthor").value;
+  const coverImgDiv = document.getElementById("blogCoverUpload");
+  const innerImages = document.getElementById("blogImgs").files;
+  const coverImg = coverImgDiv.files[0] ? coverImgDiv.files[0].name : null;
+
+  const newPost = {
+    "date": new Date().toDateString(),
+    "title": title,
+    "author": author,
+    "body": newBody,
+    "id": makeSudoGUID(),
+    "coverImg": coverImg
+  }
+  if (coverImg) {
+    uploadPic(coverImgDiv.files[0], "blog");
+  }
+
+  for (let i = 0; i < innerImages.length; i++) {
+    uploadPic(innerImages[i], "blog");
+  }
+
+  $.post("blog-preview", newPost).then(res => {
     const a = document.createElement('a');
-    a.href = "/blog-preview?" + blog[updateBlog.num].id;
+    a.href = "/blog-preview?" + newPost.id;
     a.setAttribute("target", "_blank");
     a.click();
   })
@@ -173,26 +202,27 @@ document.getElementById("submitBlog").addEventListener("click", () => {
   const innerImages = document.getElementById("blogImgs").files;
   const coverImg = coverImgDiv.files[0] ? coverImgDiv.files[0].name : null;
 
-  if (!isUpdate && coverImgDiv.files.length == 0) {
-    alert("needs a cover img");
-    return false;
-  }
 
   if (isUpdate) {
     blog[updateBlog.num].body = newBody
     blog[updateBlog.num].title = title;
     blog[updateBlog.num].author = author;
-    coverImgDiv.files.length > 0 ? blog[updateBlog.num].coverImg = coverImg : null;
-
+    if (coverImg !== blog[updateBlog.num].coverPic) {
+      blog[updateBlog.num].coverImg = coverImg
+      uploadPic(coverImgDiv.files[0], "blog");
+    }
   } else {
-
+    if (coverImgDiv.files.length === 0) {
+      alert("needs a cover img");
+      return false;
+    }
     const newPost = {
       "date": new Date().toDateString(),
       "title": title,
       "author": author,
       "body": newBody,
       "id": makeSudoGUID(),
-      "coverPic": coverImg
+      "coverImg": coverImg
     }
     blog.push(newPost);
     uploadPic(coverImgDiv.files[0], "blog");
@@ -203,7 +233,6 @@ document.getElementById("submitBlog").addEventListener("click", () => {
     freshBlog();
     httpGet("blog", blogToDom);
   })
-
 
 
   for (let i = 0; i < innerImages.length; i++) {
@@ -220,7 +249,6 @@ function freshBlog() {
   document.getElementById('blogAuthor').value = "";
   document.getElementById('cancelBlog').style.display = "none";
   document.getElementById('deleteBlog').style.display = "none";
-  document.getElementById('previewBlog').style.display = "none";
   document.getElementById('blogCoverUpload').value = "";
   document.getElementById('blogImgs').value = "";
   document.getElementById('blogCoverImg').src = "";
@@ -231,7 +259,6 @@ function loadBlog(i) {
   document.getElementById('submitBlog').innerText = "Update";
   document.getElementById('cancelBlog').style.display = "inline-block";
   document.getElementById('deleteBlog').style.display = "inline-block";
-  document.getElementById('previewBlog').style.display = "inline-block";
   document.getElementById('blogTitle').value = blog[i].title;
   document.getElementById('blogAuthor').value = blog[i].author;
   document.getElementById('blogCoverImg').src = "/assets/images/blogPics/" + blog[i].coverImg;
