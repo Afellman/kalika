@@ -63,9 +63,9 @@ function deleteBtnClick(index) {
 }
 
 function uploadPic(photo, type) {
-  let quality = 6;
+  let quality = 0.6;
   if (photo.size > 2000000) {
-    quality = 1;
+    quality = 0.6;
   }
   new Compressor(photo, {
     quality: quality,
