@@ -4,12 +4,6 @@ var blog = [];
 var isUpdate = false;
 var updateBlog = {};
 
-
-if (location.href.indexOf("localhost") !== -1) {
-  document.getElementById('pass').value = "smile";
-  sendPass();
-}
-
 modalDelete.addEventListener('click', function () {
   httpPost('deleteImg', 'application/json', imgToDelete, (res) => {
     imgToDelete = {};
@@ -69,8 +63,12 @@ function deleteBtnClick(index) {
 }
 
 function uploadPic(photo, type) {
+  let quality = 6;
+  if (photo.size > 2000000) {
+    quality = 3;
+  }
   new Compressor(photo, {
-    quality: 0.3,
+    quality: quality,
     success(result) {
       const formData = new FormData();
       formData.append('photo', result, result.name);
@@ -202,12 +200,11 @@ document.getElementById("submitBlog").addEventListener("click", () => {
   const innerImages = document.getElementById("blogImgs").files;
   const coverImg = coverImgDiv.files[0] ? coverImgDiv.files[0].name : null;
 
-
   if (isUpdate) {
     blog[updateBlog.num].body = newBody
     blog[updateBlog.num].title = title;
     blog[updateBlog.num].author = author;
-    if (coverImg !== blog[updateBlog.num].coverPic) {
+    if (coverImg !== null && coverImg !== blog[updateBlog.num].coverPic) {
       blog[updateBlog.num].coverImg = coverImg
       uploadPic(coverImgDiv.files[0], "blog");
     }
