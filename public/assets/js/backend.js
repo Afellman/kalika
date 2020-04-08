@@ -44,7 +44,7 @@ function saveBtnClick(i) {
       name: document.getElementById('nameInput' + i).value,
       link: document.getElementById('linkInput' + i).value,
       size: document.getElementById('sizeInput' + i).value,
-      path: document.getElementById('img' + i).getAttribute('src').split('/')[2]
+      path: document.getElementById('img' + i).getAttribute('src').split('/')[4]
     },
     index: i
   }
