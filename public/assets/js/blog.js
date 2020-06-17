@@ -50,7 +50,8 @@ ham[0].addEventListener("click", function (e) {
 
 // Reponse from blog ajax.
 function blogToDom(res) {
-  const parsed = JSON.parse(res);
+  let parsed = JSON.parse(res);
+  parsed = parsed.reverse();
   const cleanedBlog = parsed.map((post, i) => {
     let cleanedBody = post.body.replace(/style="[a-zA-Z0-9:;\.\s\(\)\-\,]*"/gi, "").replace(/<p><br><\/p>/gi, "");
     const imgs = [...post.body.matchAll(/\[\[.*?\]\]/g)];
@@ -81,6 +82,7 @@ function archiveToDom(blog) {
   if (typeof blog === "string") {
     blog = JSON.parse(blog);
   }
+  blog = blog.reverse();
   const archive = blog.map((post, i) => {
     let ret = `
       <div class="archive-post">
