@@ -75,7 +75,7 @@ function blogToDom(res) {
     }
   });
 
-  archiveToDom(parsed);
+  archiveToDom(parsed.reverse());
 }
 
 function archiveToDom(blog) {
