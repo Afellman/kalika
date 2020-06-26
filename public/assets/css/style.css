@@ -517,7 +517,9 @@ button {
 #about p:nth-of-type(3), #about p:nth-of-type(4){
   margin: 0px 1.5rem 1rem 1.5rem;
 }
-
+#about .Row-image {
+  max-width: 100%;
+}
 /*======= TRANSITIONS =======*/
 #currentStyles.show {
   opacity: 1;
