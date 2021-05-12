@@ -16,7 +16,7 @@
     "express": "^4.16.4",
     "express-fileupload": "^1.1.1-alpha.2",
     "mongodb": "^3.5.4",
-    "nodemailer": "^5.1.1",
+    "nodemailer": "^6.4.16",
     "nodemailer-smtp-transport": "^2.7.4"
   }
 }
